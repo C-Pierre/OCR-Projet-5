@@ -1,0 +1,30 @@
+<mat-toolbar class="header">
+
+  <!-- Logo -->
+  <div class="header-left">
+    <img src="/assets/logo_p6.png" alt="logo" />
+  </div>
+
+  <!-- Right part -->
+  <div class="header-right">
+
+    <!-- Burger -->
+    <button class="burger" mat-icon-button (click)="toggleBurger()">
+      <img src="/assets/icones/icon_menu.png" alt="menu" />
+    </button>
+
+    <!-- Menu unique -->
+    <nav class="menu" [class.mobile-open]="burgerOpen">
+      <button mat-button (click)="logout()">Se déconnecter</button>
+      <a mat-button href="/">Articles</a>
+      <a mat-button href="/themes">Thèmes</a>
+      <a class="user" href="/profil">
+        <img src="/assets/icones/icon_user.png" alt="account" />
+      </a>
+    </nav>
+
+    <!-- Overlay mobile -->
+    <div class="overlay" *ngIf="burgerOpen" (click)="toggleBurger()"></div>
+
+  </div>
+</mat-toolbar>
