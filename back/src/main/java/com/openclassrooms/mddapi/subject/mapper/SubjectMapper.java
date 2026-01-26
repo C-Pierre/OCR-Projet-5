@@ -1,0 +1,17 @@
+package com.openclassrooms.mddapi.subject.mapper;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import com.openclassrooms.mddapi.subject.model.Subject;
+import com.openclassrooms.mddapi.subject.dto.SubjectDto;
+
+@Mapper(componentModel = "spring")
+public interface SubjectMapper {
+
+    SubjectDto toDto(Subject subject);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    Subject toEntity(SubjectDto dto);
+}
