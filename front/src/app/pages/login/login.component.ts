@@ -1,0 +1,51 @@
+import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
+import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ButtonComponent,
+    HeaderComponent
+  ],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
+})
+export class LoginComponent {
+
+  private authService = inject(AuthService);
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+
+  public onError = false;
+
+  loginForm = this.fb.nonNullable.group({
+    identifier: ['', [Validators.required, Validators.maxLength(250)]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
+  });
+
+  async submit(): Promise<void> {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    try {
+      await firstValueFrom(
+        this.authService.login(this.loginForm.getRawValue())
+      );
+      this.onError = false;
+      await this.router.navigate(['/themes']);
+    } catch (error) {
+      this.onError = true;
+    }
+  }
+}
