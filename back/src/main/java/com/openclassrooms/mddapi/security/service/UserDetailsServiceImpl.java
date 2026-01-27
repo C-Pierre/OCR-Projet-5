@@ -17,6 +17,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userDataPort = userDataPort;
     }
 
+    public UserDetails loadUserById(Long id) {
+
+        User user = userDataPort.getById(id);
+
+        if (user == null) {
+            throw new UsernameNotFoundException(
+                    "Utilisateur non trouvé avec le id : " + id
+            );
+        }
+
+        UserDetailsImpl userDetails = new UserDetailsImpl();
+        userDetails.setId(user.getId());
+        userDetails.setUsername(user.getUserName());
+        userDetails.setEmail(user.getEmail());
+        userDetails.setPassword(user.getPassword());
+
+        return userDetails;
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username)
@@ -26,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (user == null) {
             throw new UsernameNotFoundException(
-                "Utilisateur non trouvé avec le username : " + username
+                    "Utilisateur non trouvé avec le username : " + username
             );
         }
 

@@ -21,9 +21,9 @@ public class AuthLoginService {
     private final JwtUtils jwtUtils;
 
     public AuthLoginService(
-        AuthenticationManager authenticationManager,
-        UserDataPort userDataPort,
-        JwtUtils jwtUtils
+            AuthenticationManager authenticationManager,
+            UserDataPort userDataPort,
+            JwtUtils jwtUtils
     ) {
         this.authenticationManager = authenticationManager;
         this.userDataPort = userDataPort;
@@ -46,7 +46,7 @@ public class AuthLoginService {
 
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                user.getEmail(),
+                user.getUserName(),
                 loginRequest.password()
             )
         );
@@ -57,10 +57,10 @@ public class AuthLoginService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         return new JwtResponse(
-            jwt,
-            userDetails.getId(),
-            userDetails.getUsername(),
-            userDetails.getEmail()
+                jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail()
         );
     }
 }
