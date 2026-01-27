@@ -1,40 +1,39 @@
-import { Component, HostListener, ElementRef } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Component, HostListener, ElementRef } from '@angular/core';
+import { SessionService } from 'src/app/core/services/auth/session.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  menuOpen = false;
+
   burgerOpen = false;
 
-  constructor(private elRef: ElementRef) {}
+  constructor(
+    private elRef: ElementRef,
+    private sessionService: SessionService
+  ) {}
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
-  }
-
-  toggleBurger() {
+  toggleBurger(): void {
     this.burgerOpen = !this.burgerOpen;
-    if (!this.burgerOpen) this.menuOpen = false;
   }
 
-  logout() {
-    console.log("Déconnexion...");
+  logout(): void {
+    this.sessionService.logOut();
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
+  onDocumentClick(event: Event): void {
     const clickedInside = this.elRef.nativeElement.contains(event.target);
     if (!clickedInside) {
       this.burgerOpen = false;
-      this.menuOpen = false;
     }
   }
 }

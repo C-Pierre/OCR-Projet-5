@@ -45,7 +45,7 @@ export class RegisterComponent {
         try {
             await firstValueFrom(this.authService.register(registerRequest));
             this.onError = false;
-            await this.router.navigate(['/themes']);
+            await this.router.navigate(['/login']);
         } catch (error: any) {
             console.error(error);
             this.onError = true;
