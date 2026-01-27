@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { HeaderComponent } from '../../components/parts/common/header.component';
-import { SubjectService } from 'src/app/core/services/subject.service';
 import { Observable } from 'rxjs';
-import { Subject } from 'src/app/core/models/subject.interface';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { Subject } from 'src/app/core/models/subject/subject.interface';
+import { SubjectService } from 'src/app/core/services/subject/subject.service';
+import { HeaderComponent } from '../../components/parts/shared/header/header.component';
 
 @Component({
   selector: 'app-subjects',
