@@ -3,6 +3,7 @@ spring.application.name=mdd-api
 spring.profiles.active=dev
 app.token.secret=TO_DO
 app.frontUrl=http://localhost:4200
+app.token.expiration=86400000
 
 # Server
 server.port=8080
