@@ -70,7 +70,7 @@ public class User {
         return updatedAt;
     }
 
-    public void setUserName(String name) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
