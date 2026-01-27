@@ -30,6 +30,12 @@ public class UserDataAdapter implements UserDataPort {
     }
 
     @Override
+    public User getByUserName(String userName) {
+        return userRepository.findByUserName(userName)
+            .orElseThrow(() -> new NotFoundException("User not found with username: " + userName));
+    }
+
+    @Override
     public void save(User user) { userRepository.save(user); }
 }
 
