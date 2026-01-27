@@ -41,6 +41,8 @@ public class User {
     @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
+    protected User() {}
+
     public User(String email, String userName) {
         this.email = email;
         this.userName = userName;
