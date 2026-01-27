@@ -22,11 +22,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        User user = userDataPort.getByEmail(username);
+        User user = userDataPort.getByUserName(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(
-                    "Utilisateur non trouvé avec l'email : " + username
+                "Utilisateur non trouvé avec le username : " + username
             );
         }
 

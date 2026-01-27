@@ -1,10 +1,10 @@
 package com.openclassrooms.mddapi.user.repository.adapter;
 
-import com.openclassrooms.mddapi.common.exception.NotFoundException;
-import com.openclassrooms.mddapi.user.model.User;
 import org.springframework.stereotype.Service;
+import com.openclassrooms.mddapi.user.model.User;
 import com.openclassrooms.mddapi.user.repository.UserRepository;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
+import com.openclassrooms.mddapi.common.exception.NotFoundException;
 
 @Service
 public class UserDataAdapter implements UserDataPort {
@@ -27,6 +27,12 @@ public class UserDataAdapter implements UserDataPort {
     public User getByEmail(String email) {
         return userRepository.findByEmail(email)
             .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
+    }
+
+    @Override
+    public User getById(Long id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
     }
 
     @Override

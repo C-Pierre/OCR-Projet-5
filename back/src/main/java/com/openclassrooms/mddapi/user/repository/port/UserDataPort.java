@@ -7,6 +7,7 @@ public interface UserDataPort {
     boolean existsByUserName(String userName);
     boolean existsByEmail(String email);
     User getByEmail(String email) throws NotFoundException;
+    User getById(Long id) throws NotFoundException;
     User getByUserName(String userName) throws NotFoundException;
     void save(User user);
 }
