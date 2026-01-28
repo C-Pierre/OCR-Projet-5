@@ -1,57 +1,75 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
-
-interface Subscription {
-  id: number;
-  title: string;
-  description: string;
-}
+import { UserService } from 'src/app/core/services/user/user.service';
+import { SessionService } from 'src/app/core/services/auth/session.service';
+import { firstValueFrom, Observable, of, BehaviorSubject } from 'rxjs';
+import { filter, switchMap, catchError, tap } from 'rxjs/operators';
+import { User } from 'src/app/core/models/user/user.interface';
+import { ProfilFormComponent } from 'src/app/components/parts/profil/form/profil-form.component';
+import { SubscriptionsComponent } from 'src/app/components/sections/profil/subscription/subscriptions.component';
+import { Subscription } from 'src/app/core/models/subscription/subscription.interface';
 
 @Component({
   selector: 'app-profil',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, HeaderComponent],
+  imports: [
+    CommonModule,
+    ButtonComponent,
+    HeaderComponent,
+    ProfilFormComponent,
+    SubscriptionsComponent
+  ],
   templateUrl: './profil.component.html',
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent implements OnInit {
+  private sessionService = inject(SessionService);
+  private userService = inject(UserService);
 
-  profileForm: FormGroup;
-  subscriptions: Subscription[] = [
-    {
-      id: 1,
-      title: 'Titre du thème 1',
-      description: 'Description: lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard...'
-    },
-    {
-      id: 2,
-      title: 'Titre du thème 2',
-      description: 'Description: lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard...'
-    }
+  private userSubject = new BehaviorSubject<User | null>(null);
+  public user$: Observable<User | null> = this.userSubject.asObservable();
+
+  public subscriptions: Subscription[] = [
+    { id: 1, title: 'Titre du thème 1', description: 'Description: lorem ipsum...' },
+    { id: 2, title: 'Titre du thème 2', description: 'Description: lorem ipsum...' }
   ];
 
-  constructor(private fb: FormBuilder) { 
-    this.profileForm = this.fb.group({
-      username: ['username'],
-      email: ['email@email.fr'],
-      password: ['']
-    });
+  ngOnInit(): void {
+    this.sessionService.isLogged$.pipe(
+      filter(Boolean),
+      switchMap(() => {
+        const session = this.sessionService.sessionInformation!;
+        return this.userService.getById(`${session.id}`);
+      }),
+      catchError(err => {
+        console.error('Impossible de charger l’utilisateur', err);
+        return of(null);
+      }),
+      tap(user => this.userSubject.next(user))
+    ).subscribe();
   }
 
-  ngOnInit(): void { }
+  async onSaveProfile(updatedUser: Partial<User>): Promise<void> {
+    const userId = this.sessionService.sessionInformation?.id;
+    if (!userId) return;
 
-  saveProfile() {
-    if (this.profileForm.valid) {
-      console.log('Profil sauvegardé', this.profileForm.value);
-      // ici appeler un service pour sauvegarder
+    try {
+      const user = await firstValueFrom(
+        this.userService.update(userId.toString(), updatedUser as User)
+      );
+      console.log('Profil mis à jour', user);
+
+      // 🔹 On push la nouvelle valeur pour rafraîchir le formulaire et la vue
+      this.userSubject.next(user);
+
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour du profil', err);
     }
   }
 
-  unsubscribe(subId: number) {
+  unsubscribe(subId: number): void {
     console.log('Se désabonner de', subId);
-    // ici appeler un service pour se désabonner
   }
 }

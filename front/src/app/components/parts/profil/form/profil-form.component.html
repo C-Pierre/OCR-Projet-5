@@ -1,0 +1,18 @@
+<form [formGroup]="profilForm" (ngSubmit)="submit()">
+  <div class="form-group">
+    <label for="username">Nom d’utilisateur</label>
+    <input id="username" type="text" formControlName="username">
+  </div>
+
+  <div class="form-group">
+    <label for="email">E-mail</label>
+    <input id="email" type="email" formControlName="email">
+  </div>
+
+  <div class="form-group">
+    <label for="password">Mot de passe</label>
+    <input id="password" type="password" formControlName="password">
+  </div>
+
+  <app-button title="Sauvegarder" type="submit" class="primary"></app-button>
+</form>

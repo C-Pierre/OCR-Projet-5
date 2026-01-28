@@ -1,0 +1,26 @@
+@import 'src/styles/variables';
+
+.subscription {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 0.8rem;
+    max-width: 400px;
+    border-radius: 4px;
+    background-color: $color-grey-second;
+
+    h3 {
+    margin: 0 0 0.3rem 0;
+    font-weight: 500;
+    }
+
+    p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    }
+
+    app-button {
+    align-self: center;
+    }
+}
