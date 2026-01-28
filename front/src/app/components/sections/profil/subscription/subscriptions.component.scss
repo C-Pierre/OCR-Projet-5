@@ -1,0 +1,10 @@
+.subscriptions-section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+}
+
+.subscriptions-section > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

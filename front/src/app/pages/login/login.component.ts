@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { SessionService } from 'src/app/core/services/auth/session.service';
+import { SessionInfo } from 'src/app/core/models/auth/sessionInfo.interface';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { LoginRequest } from 'src/app/core/models/auth/loginRequest.interface';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
 
@@ -22,6 +25,7 @@ import { ButtonComponent } from 'src/app/components/elements/shared/button/butto
 export class LoginComponent {
 
   private authService = inject(AuthService);
+  private sessionService = inject(SessionService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
@@ -38,12 +42,12 @@ export class LoginComponent {
       return;
     }
 
+    const loginRequest = this.loginForm.value as LoginRequest;
+
     try {
-      await firstValueFrom(
-        this.authService.login(this.loginForm.getRawValue())
-      );
-      this.onError = false;
-      await this.router.navigate(['/themes']);
+      const response: SessionInfo = await firstValueFrom(this.authService.login(loginRequest));
+      this.sessionService.logIn(response);
+      void this.router.navigate(['/themes']);
     } catch (error) {
       this.onError = true;
     }
