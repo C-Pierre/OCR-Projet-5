@@ -3,8 +3,10 @@ package com.openclassrooms.mddapi.subject.repository.adapter;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.subject.model.Subject;
-import com.openclassrooms.mddapi.subject.repository.port.SubjectDataPort;
+import com.openclassrooms.mddapi.common.exception.NotFoundException;
 import com.openclassrooms.mddapi.subject.repository.SubjectRepository;
+import com.openclassrooms.mddapi.subject.dto.SubjectWithSubscriptionDto;
+import com.openclassrooms.mddapi.subject.repository.port.SubjectDataPort;
 
 @Service
 public class SubjectDataAdapter implements SubjectDataPort {
@@ -13,6 +15,16 @@ public class SubjectDataAdapter implements SubjectDataPort {
 
     public SubjectDataAdapter(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
+    }
+
+    public List<SubjectWithSubscriptionDto> findAllWithSubscriptionForUser(Long userId) {
+        return subjectRepository.findAllWithSubscriptionForUser(userId);
+    }
+
+    @Override
+    public Subject getById(Long id) {
+        return subjectRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Subject not found with id: " + id));
     }
 
     @Override

@@ -1,6 +1,6 @@
-package com.openclassrooms.mddapi.security.jwt;
+package com.openclassrooms.mddapi.auth.jwt;
 
-import com.openclassrooms.mddapi.security.service.UserDetailsServiceImpl;
+import com.openclassrooms.mddapi.auth.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

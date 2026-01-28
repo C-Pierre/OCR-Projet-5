@@ -1,14 +1,14 @@
-package com.openclassrooms.mddapi.security.jwt;
+package com.openclassrooms.mddapi.auth.jwt;
 
-import com.openclassrooms.mddapi.security.service.UserDetailsImpl;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import java.util.Date;
+import org.slf4j.Logger;
+import io.jsonwebtoken.*;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import io.jsonwebtoken.security.SignatureException;
+import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Value;
+import com.openclassrooms.mddapi.auth.service.UserDetailsImpl;
 
 @Component
 public class JwtUtils {
@@ -24,20 +24,20 @@ public class JwtUtils {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(String.valueOf(userPrincipal.getId()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+            .setSubject(String.valueOf(userPrincipal.getId()))
+            .setIssuedAt(new Date())
+            .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+            .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .compact();
     }
 
     public Long getUserIdFromJwtToken(String token) {
         String subject = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+            .setSigningKey(jwtSecret)
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
 
         return Long.parseLong(subject);
     }
@@ -57,6 +57,7 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             log.error("JWT claims string is empty: {}", e.getMessage());
         }
+
         return false;
     }
 }

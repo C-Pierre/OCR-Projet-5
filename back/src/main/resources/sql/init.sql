@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS `subscription` (
     user_id INT NOT NULL,
     subject_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY user_subject_unique (user_id, subject_id),
     FOREIGN KEY (user_id) REFERENCES mdd.user(id) ON DELETE CASCADE,
     FOREIGN KEY (subject_id) REFERENCES mdd.subject(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;

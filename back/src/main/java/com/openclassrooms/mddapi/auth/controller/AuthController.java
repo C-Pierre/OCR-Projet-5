@@ -11,7 +11,7 @@ import com.openclassrooms.mddapi.auth.request.RegisterRequest;
 import com.openclassrooms.mddapi.auth.service.AuthLoginService;
 import com.openclassrooms.mddapi.common.response.MessageResponse;
 import com.openclassrooms.mddapi.auth.service.AuthRegisterService;
-import com.openclassrooms.mddapi.security.jwt.response.JwtResponse;
+import com.openclassrooms.mddapi.auth.jwt.response.JwtResponse;
 
 @RestController
 @RequestMapping("/api/auth")

@@ -2,12 +2,11 @@ package com.openclassrooms.mddapi.auth.service;
 
 import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.user.model.User;
-import com.openclassrooms.mddapi.security.jwt.JwtUtils;
+import com.openclassrooms.mddapi.auth.jwt.JwtUtils;
 import org.springframework.security.core.Authentication;
 import com.openclassrooms.mddapi.auth.request.LoginRequest;
-import com.openclassrooms.mddapi.security.service.UserDetailsImpl;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
-import com.openclassrooms.mddapi.security.jwt.response.JwtResponse;
+import com.openclassrooms.mddapi.auth.jwt.response.JwtResponse;
 import com.openclassrooms.mddapi.common.exception.BadRequestException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;

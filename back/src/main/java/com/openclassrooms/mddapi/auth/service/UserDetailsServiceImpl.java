@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.security.service;
+package com.openclassrooms.mddapi.auth.service;
 
 import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.user.model.User;
