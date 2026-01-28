@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.security.service;
+package com.openclassrooms.mddapi.auth.service;
 
 import java.io.Serial;
 import java.util.HashSet;

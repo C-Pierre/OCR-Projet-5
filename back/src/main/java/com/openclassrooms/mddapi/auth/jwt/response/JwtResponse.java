@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.security.jwt.response;
+package com.openclassrooms.mddapi.auth.jwt.response;
 
 public record JwtResponse(
         String token,
