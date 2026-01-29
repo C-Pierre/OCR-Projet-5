@@ -1,0 +1,63 @@
+@import 'src/styles/variables';
+
+.feed-container { 
+    padding: 1rem;
+    
+    .header { 
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+
+    }
+
+    h3 {
+        font-weight: 500;
+    }
+
+    .feed-list { 
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .post-card {
+        display: flex;
+        flex-direction: column;
+        background: $color-grey-second;
+        border-radius: $radius-sm;
+        padding: 16px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        > div {
+            display: inline-flex;
+            align-items: center;
+            gap: 4rem;
+        }
+    }
+
+    .meta {     
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .truncate {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+
+        
