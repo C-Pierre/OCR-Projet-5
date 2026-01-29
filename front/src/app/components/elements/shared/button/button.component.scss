@@ -27,4 +27,9 @@
             border-color: #7763C5;
         }
     }
+
+    &.disabled, &[disabled] {
+        pointer-events: none;
+        cursor: not-allowed;
+    }
 }

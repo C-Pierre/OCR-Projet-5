@@ -4,24 +4,26 @@
   @if (user$ | async; as user) {
     <section class="profile-section">
       <h2>Profil utilisateur</h2>
+
       <app-profil-form
         [user]="user"
         (save)="onSaveProfile($event)">
       </app-profil-form>
     </section>
 
-    <hr/>
-    
-    <section class="subscriptions-section">
-      <h2>Abonnements</h2>
-      <div>
-        <div class="subscription" *ngFor="let sub of subscriptions">
-          <h3>{{ sub.title }}</h3>
-      
-          <p>{{ sub.description }}</p>
-          <app-button title="Se désabonner" (click)="unsubscribe(sub.id)" class="secondary"></app-button>
-        </div>
-      </div>
-    </section>
+    <hr />
+
+    <app-subscriptions
+      [subscriptions]="(subscriptions$ | async) ?? []"
+      (unsubscribe)="openUnsubscribeModal($event)">
+    </app-subscriptions>
+
+    <app-confirm-modal
+      *ngIf="showUnsubscribeModal$ | async"
+      title="Confirmation"
+      message="Êtes-vous sûr de vouloir vous désabonner ?"
+      (confirm)="confirmUnsubscribe()"
+      (cancel)="cancelUnsubscribe()">
+    </app-confirm-modal>
   }
 </main>

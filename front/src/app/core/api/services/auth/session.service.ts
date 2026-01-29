@@ -1,7 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { SessionInfo } from '../../models/auth/sessionInfo.interface';
+import { SessionInfo } from 'src/app/core/models/auth/sessionInfo.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SessionService {

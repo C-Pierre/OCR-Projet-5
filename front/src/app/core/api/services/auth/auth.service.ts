@@ -2,9 +2,9 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { SessionInfo } from '../../models/auth/sessionInfo.interface';
-import { LoginRequest } from '../../models/auth/loginRequest.interface';
-import { RegisterRequest } from '../../models/auth/registerRequest.interface';
+import { SessionInfo } from 'src/app/core/models/auth/sessionInfo.interface';
+import { LoginRequest } from 'src/app/core/models/auth/loginRequest.interface';
+import { RegisterRequest } from 'src/app/core/models/auth/registerRequest.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -7,20 +7,22 @@
     margin-bottom: 1.5rem;
     padding: 0.8rem;
     max-width: 400px;
-    border-radius: 4px;
+    border-radius: $radius-sm;
     background-color: $color-grey-second;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
     h3 {
-    margin: 0 0 0.3rem 0;
-    font-weight: 500;
+        margin: 0 0 0.3rem 0;
+        font-weight: 500;
     }
 
     p {
-    margin: 0 0 0.5rem 0;
-    font-size: 0.9rem;
+        margin: 0 0 0.5rem 0;
+        font-size: 0.9rem;
     }
 
     app-button {
-    align-self: center;
+        align-self: center;
+        margin-top: 0.5rem;
     }
 }
