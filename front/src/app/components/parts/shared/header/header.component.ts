@@ -30,7 +30,7 @@ import { SessionService } from 'src/app/core/api/services/auth/session.service';
             <a mat-button routerLink="/">Accueil</a>
           }
 
-          <a mat-button routerLink="/">Articles</a>
+          <a mat-button routerLink="/feed">Articles</a>
           <a mat-button routerLink="/themes">Thèmes</a>
           <a class="user" routerLink="/profil"><img src="/assets/icons/icon_user.png" alt="account" /></a>
         </nav>

@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.subscription.repository.port;
 
 import java.util.List;
-import com.openclassrooms.mddapi.subscription.model.Subscription;
+import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.common.exception.NotFoundException;
 
 public interface SubscriptionDataPort {

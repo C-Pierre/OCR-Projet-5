@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.user.repository.adapter;
 
 import org.springframework.stereotype.Service;
-import com.openclassrooms.mddapi.user.model.User;
+import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.user.repository.UserRepository;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import com.openclassrooms.mddapi.common.exception.NotFoundException;

@@ -1,9 +1,9 @@
 package com.openclassrooms.mddapi.subscription.service;
 
 import org.springframework.stereotype.Service;
-import com.openclassrooms.mddapi.user.model.User;
-import com.openclassrooms.mddapi.subject.model.Subject;
-import com.openclassrooms.mddapi.subscription.model.Subscription;
+import com.openclassrooms.mddapi.user.entity.User;
+import com.openclassrooms.mddapi.subject.entity.Subject;
+import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import com.openclassrooms.mddapi.common.exception.BadRequestException;
 import com.openclassrooms.mddapi.subject.repository.port.SubjectDataPort;

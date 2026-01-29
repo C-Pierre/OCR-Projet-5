@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.user.repository.port;
 
-import com.openclassrooms.mddapi.user.model.User;
+import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.common.exception.NotFoundException;
 
 public interface UserDataPort {
