@@ -1,5 +1,5 @@
 export interface Subscription {
   id: number;
-  title: string;
+  name: string;
   description: string;
 }

@@ -10,18 +10,25 @@ type ButtonType = 'button' | 'submit' | 'reset' | 'a';
   imports: [CommonModule, RouterModule],
   styleUrls: ['./button.component.scss'],
   template: `
-    <a *ngIf="isLink(); else buttonTpl"
-       [routerLink]="routerLink"
-       class="btn"
-       [ngClass]="btnClass">
+    <a
+      *ngIf="isLink(); else buttonTpl"
+      [routerLink]="!disabled ? routerLink : null"
+      class="btn"
+      [ngClass]="btnClass"
+      [attr.aria-disabled]="disabled"
+      [class.disabled]="disabled"
+      (click)="disabled && $event.preventDefault()"
+    >
       {{ title ?? 'Button' }}
     </a>
 
     <ng-template #buttonTpl>
       <button
         class="btn"
-        [ngClass]="btnClass"
-        [attr.type]="type">
+        [ngClass]="!disabled ? btnClass : ''"
+        [type]="type"
+        [disabled]="disabled"
+      >
         {{ title ?? 'Button' }}
       </button>
     </ng-template>
@@ -32,6 +39,7 @@ export class ButtonComponent {
   @Input() type: ButtonType = 'button';
   @Input() routerLink?: string | any[];
   @Input() btnClass: string = 'primary';
+  @Input() disabled: boolean = false;
 
   isLink(): boolean {
     return this.type === 'a';

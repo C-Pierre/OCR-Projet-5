@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { User } from 'src/app/core/models/user/user.interface';
+import { filter, switchMap, catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, firstValueFrom } from 'rxjs';
+import { UserService } from 'src/app/core/api/services/user/user.service';
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
-import { UserService } from 'src/app/core/services/user/user.service';
-import { SessionService } from 'src/app/core/services/auth/session.service';
-import { firstValueFrom, Observable, of, BehaviorSubject } from 'rxjs';
-import { filter, switchMap, catchError, tap } from 'rxjs/operators';
-import { User } from 'src/app/core/models/user/user.interface';
 import { ProfilFormComponent } from 'src/app/components/parts/profil/form/profil-form.component';
+import { ConfirmModalComponent } from 'src/app/components/parts/shared/modal/confirm-modal.component';
+import { SubscriptionService } from 'src/app/core/api/services/subscription/subscription.service';
+import { UserSubscriptionService } from 'src/app/core/services/subscription/user-subscription.service';
 import { SubscriptionsComponent } from 'src/app/components/sections/profil/subscription/subscriptions.component';
-import { Subscription } from 'src/app/core/models/subscription/subscription.interface';
 
 @Component({
   selector: 'app-profil',
@@ -19,7 +21,8 @@ import { Subscription } from 'src/app/core/models/subscription/subscription.inte
     ButtonComponent,
     HeaderComponent,
     ProfilFormComponent,
-    SubscriptionsComponent
+    SubscriptionsComponent,
+    ConfirmModalComponent
   ],
   templateUrl: './profil.component.html',
   styleUrls: ['./profil.component.scss']
@@ -27,28 +30,41 @@ import { Subscription } from 'src/app/core/models/subscription/subscription.inte
 export class ProfilComponent implements OnInit {
   private sessionService = inject(SessionService);
   private userService = inject(UserService);
+  private subscriptionService = inject(SubscriptionService);
+  private userSubscriptionService = inject(UserSubscriptionService);
 
   private userSubject = new BehaviorSubject<User | null>(null);
-  public user$: Observable<User | null> = this.userSubject.asObservable();
+  user$: Observable<User | null> = this.userSubject.asObservable();
 
-  public subscriptions: Subscription[] = [
-    { id: 1, title: 'Titre du thème 1', description: 'Description: lorem ipsum...' },
-    { id: 2, title: 'Titre du thème 2', description: 'Description: lorem ipsum...' }
-  ];
+  subscriptions$ = this.userSubscriptionService.subscriptions$;
+  showUnsubscribeModal$ = this.userSubscriptionService.showUnsubscribeModal$;
 
   ngOnInit(): void {
-    this.sessionService.isLogged$.pipe(
-      filter(Boolean),
-      switchMap(() => {
-        const session = this.sessionService.sessionInformation!;
-        return this.userService.getById(`${session.id}`);
-      }),
-      catchError(err => {
-        console.error('Impossible de charger l’utilisateur', err);
-        return of(null);
-      }),
-      tap(user => this.userSubject.next(user))
-    ).subscribe();
+    this.sessionService.isLogged$
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          const session = this.sessionService.sessionInformation!;
+          return this.userService.getById(session.id.toString());
+        }),
+        tap(user => this.userSubject.next(user)),
+        switchMap(user => {
+          if (!user) {
+            return of([]);
+          }
+          return this.subscriptionService.getAllForUser(user.id.toString());
+        }),
+        catchError(err => {
+          console.error(
+            'Erreur lors du chargement du profil ou des subscriptions',
+            err
+          );
+          return of([]);
+        })
+      )
+      .subscribe(subscriptions => {
+        this.userSubscriptionService.setSubscriptions(subscriptions);
+      });
   }
 
   async onSaveProfile(updatedUser: Partial<User>): Promise<void> {
@@ -59,17 +75,26 @@ export class ProfilComponent implements OnInit {
       const user = await firstValueFrom(
         this.userService.update(userId.toString(), updatedUser as User)
       );
-      console.log('Profil mis à jour', user);
 
-      // 🔹 On push la nouvelle valeur pour rafraîchir le formulaire et la vue
       this.userSubject.next(user);
-
     } catch (err) {
       console.error('Erreur lors de la mise à jour du profil', err);
     }
   }
 
-  unsubscribe(subId: number): void {
-    console.log('Se désabonner de', subId);
+  openUnsubscribeModal(subjectId: number): void {
+    this.userSubscriptionService.openUnsubscribeModal(subjectId);
+  }
+
+  cancelUnsubscribe(): void {
+    this.userSubscriptionService.cancelUnsubscribe();
+  }
+
+  confirmUnsubscribe(): void {
+    this.userSubscriptionService.confirmUnsubscribe();
+  }
+
+  unsubscribe(subjectId: number): void {
+    this.userSubscriptionService.unsubscribeWithConfirm(subjectId);
   }
 }

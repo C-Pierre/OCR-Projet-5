@@ -1,7 +1,7 @@
 import { firstValueFrom } from "rxjs";
 import {Injectable} from "@angular/core";
 import { Router } from "@angular/router";
-import { SessionService } from "../core/services/auth/session.service";
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
 
 @Injectable({ providedIn: 'root' })
 export class UnauthGuard  {

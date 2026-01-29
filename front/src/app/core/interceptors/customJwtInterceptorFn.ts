@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SessionService } from '../core/services/auth/session.service';
+import { Injectable } from '@angular/core';
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 
 @Injectable()
 export class CustomJwtInterceptor implements HttpInterceptor {

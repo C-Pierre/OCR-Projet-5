@@ -2,7 +2,7 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { AuthService } from 'src/app/core/api/services/auth/auth.service';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RegisterRequest } from 'src/app/core/models/auth/registerRequest.interface';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';

@@ -1,20 +1,22 @@
 <app-header></app-header>
 
 <main class="container">
-  <section class="themes">
-
-    <article *ngFor="let theme of themes | async; trackBy: trackById" class="theme-card">
-      <h2>{{ theme.name }}</h2>
-      <p>{{ theme.description }}</p>
-
-      <button *ngIf="!theme.subscribed" class="subscribed" mat-stroked-button (click)="subscribe(theme)">
-        S'abonner
-      </button>
-
-      <button *ngIf="theme.subscribed" class="subscribe" mat-stroked-button>
-        Déjà abonné
-      </button>
-    </article>
-
-  </section>
+    <section class="themes">
+    <app-subscription
+        *ngFor="let theme of themes$ | async; trackBy: trackById"
+        [name]="theme.name"
+        [disabled]="theme.subscribed"
+        [description]="theme.description"
+        [subscribed]="theme.subscribed"
+        (subscribe)="subscribe(theme.id)"
+    >
+    </app-subscription>
+    </section>
+    <app-confirm-modal
+    *ngIf="userSubscriptionService.showSubscribeModal$ | async"
+    title="Confirmation"
+    message="Êtes-vous sûr de vouloir vous abonner à ce sujet ?"
+    (confirm)="userSubscriptionService.confirmSubscribe()"
+    (cancel)="userSubscriptionService.cancelSubscribe()">
+    </app-confirm-modal>
 </main>

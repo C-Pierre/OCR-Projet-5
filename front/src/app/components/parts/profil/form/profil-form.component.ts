@@ -21,7 +21,7 @@ export class ProfilFormComponent implements OnChanges {
     this.profilForm = this.fb.group({
       username: ['', [Validators.required, Validators.maxLength(250)]],
       email: ['', [Validators.required, Validators.email]],
-      password: [''] // facultatif, sera supprimé si vide
+      password: ['']
     });
   }
 
@@ -30,7 +30,7 @@ export class ProfilFormComponent implements OnChanges {
       this.profilForm.patchValue({
         username: this.user.userName,
         email: this.user.email,
-        password: '' // toujours vide au départ
+        password: ''
       });
     }
   }

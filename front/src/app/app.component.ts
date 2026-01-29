@@ -1,10 +1,12 @@
 import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
-import { SessionService } from './core/services/auth/session.service';
-
+import { SessionService } from './core/api/services/auth/session.service';
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+    <router-outlet></router-outlet>
+    <app-toast></app-toast>
+  `
 })
 export class AppComponent {
 
