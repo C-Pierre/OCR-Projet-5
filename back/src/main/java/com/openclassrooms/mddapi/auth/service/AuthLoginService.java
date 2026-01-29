@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.auth.service;
 
 import org.springframework.stereotype.Service;
-import com.openclassrooms.mddapi.user.model.User;
+import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.auth.jwt.JwtUtils;
 import org.springframework.security.core.Authentication;
 import com.openclassrooms.mddapi.auth.request.LoginRequest;

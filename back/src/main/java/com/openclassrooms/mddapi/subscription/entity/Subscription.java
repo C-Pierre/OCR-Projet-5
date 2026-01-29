@@ -1,10 +1,10 @@
-package com.openclassrooms.mddapi.subscription.model;
+package com.openclassrooms.mddapi.subscription.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import com.openclassrooms.mddapi.user.model.User;
+import com.openclassrooms.mddapi.user.entity.User;
 import org.springframework.data.annotation.CreatedDate;
-import com.openclassrooms.mddapi.subject.model.Subject;
+import com.openclassrooms.mddapi.subject.entity.Subject;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity

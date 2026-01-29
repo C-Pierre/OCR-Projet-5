@@ -2,7 +2,7 @@ package com.openclassrooms.mddapi.user.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import com.openclassrooms.mddapi.user.model.User;
+import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.user.dto.UserDto;
 
 @Mapper(componentModel = "spring")

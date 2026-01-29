@@ -2,7 +2,7 @@ package com.openclassrooms.mddapi.subscription.repository.adapter;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.openclassrooms.mddapi.subscription.model.Subscription;
+import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.common.exception.NotFoundException;
 import com.openclassrooms.mddapi.subscription.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.subscription.repository.port.SubscriptionDataPort;

@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.auth.service;
 
 import org.springframework.stereotype.Service;
-import com.openclassrooms.mddapi.user.model.User;
+import com.openclassrooms.mddapi.user.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;

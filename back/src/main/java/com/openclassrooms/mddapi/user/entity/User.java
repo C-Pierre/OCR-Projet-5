@@ -1,4 +1,4 @@
-package com.openclassrooms.mddapi.user.model;
+package com.openclassrooms.mddapi.user.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

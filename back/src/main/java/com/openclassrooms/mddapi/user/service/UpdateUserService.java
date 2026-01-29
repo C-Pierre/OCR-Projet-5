@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.user.service;
 
 import org.springframework.stereotype.Service;
-import com.openclassrooms.mddapi.user.model.User;
+import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.user.dto.UserDto;
 import com.openclassrooms.mddapi.user.mapper.UserMapper;
 import com.openclassrooms.mddapi.user.request.UpdateUserRequest;
