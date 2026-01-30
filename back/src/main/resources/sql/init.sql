@@ -41,6 +41,19 @@ CREATE TABLE IF NOT EXISTS `subscription` (
     FOREIGN KEY (subject_id) REFERENCES mdd.subject(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS `comment` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    content TEXT NOT NULL,
+    post_id INT NOT NULL,
+    author_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_comment_post
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+    CONSTRAINT fk_comment_author
+    FOREIGN KEY (author_id) REFERENCES user(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 ALTER TABLE mdd.subject
     ADD CONSTRAINT uq_subject_name UNIQUE (name);
 
@@ -50,17 +63,17 @@ VALUES
     ('UserTwo', 'user.two@mail.com', '$2a$10$.Hsa/ZjUVaHqi0tp9xieMeewrnZxrZ5pQRzddUXE/WjDu2ZThe6Iq');
 
 INSERT INTO mdd.subject (name, description)
-VALUES 
+VALUES
 ('JavaScript', 'Langage de programmation côté client'),
 ('Angular', 'Framework frontend basé sur TypeScript'),
 ('Python', 'Langage de programmation polyvalent');
 
 INSERT INTO mdd.post (title, content, subject_id, author_id)
 VALUES
-('Introduction to JS', 'Les bases de JavaScript pour débutants', 1, 1),
-('Angular Components', 'Comment créer et utiliser des composants Angular', 2, 2),
-('Python Tips', 'Conseils pour écrire un code Python propre', 3, 2),
-('RxJS Observables', 'Comprendre les Observables dans Angular', 2, 1);
+    ('Introduction to JS', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 1, 1),
+    ('Angular Components', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 2, 2),
+    ('Python Tips', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 3, 2),
+    ('RxJS Observables', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 2, 1);
 
 INSERT INTO mdd.subscription (user_id, subject_id)
 VALUES
@@ -68,3 +81,10 @@ VALUES
 (2, 1),
 (1, 3),
 (2, 3);
+
+INSERT INTO comment (content, post_id, author_id)
+VALUES
+    ('Très bon article', 1, 2),
+    ('Merci pour les explications', 1, 1),
+    ('Angular devient plus clair maintenant', 2, 1),
+    ('Article très utile', 4, 2);

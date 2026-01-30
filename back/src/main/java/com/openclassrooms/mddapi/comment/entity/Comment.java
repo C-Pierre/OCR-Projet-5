@@ -1,50 +1,35 @@
-package com.openclassrooms.mddapi.post.entity;
+package com.openclassrooms.mddapi.comment.entity;
 
-import java.util.List;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotBlank;
+import com.openclassrooms.mddapi.post.entity.Post;
 import com.openclassrooms.mddapi.user.entity.User;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-import com.openclassrooms.mddapi.subject.entity.Subject;
-import com.openclassrooms.mddapi.comment.entity.Comment;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "post")
+@Table(name = "comment")
 @EntityListeners(AuditingEntityListener.class)
-public class Post {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(max = 200)
-    @Column(nullable = false)
-    private String title;
-
-    @NotBlank
     @Lob
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
-
-    @OneToMany(
-        mappedBy = "post",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
-    private List<Comment> comments;
 
     @CreatedDate
     @Column(updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -54,12 +39,11 @@ public class Post {
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    protected Post() {}
+    protected Comment() {}
 
-    public Post(String title, String content, Subject subject, User author) {
-        this.title = title;
+    public Comment(String content, Post post, User author) {
         this.content = content;
-        this.subject = subject;
+        this.post = post;
         this.author = author;
     }
 
@@ -67,23 +51,17 @@ public class Post {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public String getContent() {
         return content;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public Post getPost() {
+        return post;
     }
 
     public User getAuthor() {
         return author;
     }
-
-    public List<Comment> getComments() { return comments; }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -93,16 +71,12 @@ public class Post {
         return updatedAt;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public void setAuthor(User author) {
