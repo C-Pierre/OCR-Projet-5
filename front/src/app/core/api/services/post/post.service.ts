@@ -19,4 +19,8 @@ export class PostService {
   public getAllForUser(userId: string): Observable<Post[]> {
     return this.httpClient.get<Post[]>(`${this.pathService}/user/${userId}`);
   }
+
+  public getOneById(postId: string): Observable<Post> {
+    return this.httpClient.get<Post>(`${this.pathService}/${postId}`);
+  }
 }

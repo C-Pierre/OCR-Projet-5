@@ -1,6 +1,8 @@
-<app-header></app-header>
+<app-header />
 
 <div class="login-container">
+  <app-button-back />
+
   <h2>Se connecter</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="submit()">

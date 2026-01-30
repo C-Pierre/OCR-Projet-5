@@ -1,0 +1,18 @@
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { Comment } from 'src/app/core/models/comment/comment.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CommentService {
+  private pathService =  `${environment.baseUrl}/comments`;
+
+  constructor(private httpClient: HttpClient) {}
+
+  public getAllByPost(postId: string): Observable<Comment[]> {
+    return this.httpClient.get<Comment[]>(`${this.pathService}/post/${postId}`);
+  }
+}

@@ -7,13 +7,20 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RegisterRequest } from 'src/app/core/models/auth/registerRequest.interface';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
+import { ButtonBackComponent } from 'src/app/components/elements/shared/button-back/button-back.component';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, HeaderComponent],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: 'app-register',
+    standalone: true,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        ButtonComponent,
+        HeaderComponent,
+        ButtonBackComponent
+    ],
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
 
@@ -50,5 +57,9 @@ export class RegisterComponent {
             console.error(error);
             this.onError = true;
         }
+    }
+
+    back() {
+        window.history.back();
     }
 }

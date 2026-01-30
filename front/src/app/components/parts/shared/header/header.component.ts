@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Component, HostListener, ElementRef } from '@angular/core';
+import { Component, HostListener, ElementRef, inject } from '@angular/core';
 import { SessionService } from 'src/app/core/api/services/auth/session.service';
 
 @Component({
@@ -41,6 +41,8 @@ import { SessionService } from 'src/app/core/api/services/auth/session.service';
 })
 export class HeaderComponent {
 
+  private router = inject(Router);
+
   burgerOpen = false;
   isLogged$: Observable<boolean>;
 
@@ -57,6 +59,7 @@ export class HeaderComponent {
 
   logout(): void {
     this.sessionService.logOut();
+    this.router.navigate(['/']);
   }
 
   @HostListener('document:click', ['$event'])
