@@ -1,9 +1,13 @@
+import { switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/core/models/post/post.interface';
 import { Comment } from 'src/app/core/models/comment/comment.interface';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 import { PostService } from 'src/app/core/api/services/post/post.service';
+import { UserService } from 'src/app/core/api/services/user/user.service';
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
 import { CommentService } from 'src/app/core/api/services/comment/comment.service';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
 import { PostSectionComponent } from 'src/app/components/sections/post/post-section.component';
@@ -11,66 +15,101 @@ import { CommentSectionComponent } from 'src/app/components/sections/comment/com
 import { ButtonBackComponent } from 'src/app/components/elements/shared/button-back/button-back.component';
 
 @Component({
-    selector: 'app-post',
-    standalone: true,
-    imports: [
-        CommonModule,
-        HeaderComponent,
-        PostSectionComponent,
-        CommentSectionComponent,
-        ButtonBackComponent
-    ],
-    styleUrl: './post.component.scss',
-    template: `
-        <app-header />
-        <main class="post-container" *ngIf="post">
-            <app-button-back />
-            <app-post-section [post]="post" />
-            <app-comment-section
-                [comments]="comments"
-                [(newComment)]="newComment"
-                (submit)="submitComment()"
-            />
-        </main>
-    `,
+  selector: 'app-post',
+  standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    PostSectionComponent,
+    CommentSectionComponent,
+    ButtonBackComponent
+  ],
+  styleUrl: './post.component.scss',
+  template: `
+    <app-header />
+    <main class="post-container" *ngIf="post">
+      <app-button-back />
+      <app-post-section [post]="post" />
+      <app-comment-section
+        [comments]="comments"
+        [(newComment)]="newComment"
+        (submitComment)="submitComment()"
+      />
+    </main>
+  `,
 })
 export class PostComponent implements OnInit {
 
   post!: Post;
   comments: Comment[] = [];
   newComment = '';
+  userId!: number;
+  authorUsername = '';
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private userService: UserService,
+    private sessionService: SessionService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
     const postId = this.route.snapshot.paramMap.get('id');
     if (!postId) return;
 
-    this.loadPost(postId);
-    this.loadComments(postId);
-  }
-
-  loadPost(postId: string): void {
-    this.postService.getOneById(postId).subscribe(post => {
-      this.post = post;
+    this.postService.getOneById(postId).pipe(
+      switchMap(post => {
+        this.post = post;
+        return this.commentService.getAllByPost(postId);
+      })
+    ).subscribe({
+      next: comments => {
+        this.comments = comments;
+      },
+      error: err => console.error('Erreur lors du chargement du post ou des commentaires', err)
     });
-  }
 
-  loadComments(postId: string): void {
-    this.commentService.getAllByPost(postId).subscribe(comments => {
-      this.comments = comments;
-    });
+    const session = this.sessionService.sessionInformation;
+    if (session?.id) {
+      this.userService.getById(session.id.toString()).subscribe({
+        next: currentUser => {
+          if (currentUser) {
+            this.userId = currentUser.id;
+            this.authorUsername = currentUser.userName;
+          } else {
+            console.warn('Utilisateur non connecté');
+          }
+        },
+        error: err => console.error('Erreur lors de la récupération de l’utilisateur', err)
+      });
+    } else {
+      console.warn('Aucune session trouvée');
+    }
   }
 
   submitComment(): void {
-    console.log('submit')
+    if (!this.newComment.trim()) return;
+
+    const comment: Comment = {
+      content: this.newComment,
+      postId: this.post.id,
+      userId: this.userId,
+      authorUsername: this.authorUsername || 'User',
+    };
+
+    this.commentService.create(comment).subscribe({
+      next: created => {
+        this.comments.push(created);
+        this.newComment = '';
+        this.toastService.success('Commentaire ajouté avec succès.');
+      },
+      error: err => this.toastService.error('Erreur lors de la création du commentaire.')
+    });
   }
 
-  back() {
+  back(): void {
     window.history.back();
   }
 }
