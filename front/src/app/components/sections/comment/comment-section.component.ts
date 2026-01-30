@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Comment } from 'src/app/core/models/comment/comment.interface';
 import { CommentFormComponent } from '../../parts/comment/form/comment-form.component';
-import { CommentCardComponent } from '../../parts/comment/card/comment-card.component';
+import { CommentDetailComponent } from '../../parts/comment/detail/comment-detail.component';
 
 @Component({
   selector: 'app-comment-section',
@@ -10,13 +10,13 @@ import { CommentCardComponent } from '../../parts/comment/card/comment-card.comp
   imports: [
     CommonModule,
     CommentFormComponent,
-    CommentCardComponent
+    CommentDetailComponent
   ],
   styleUrl: './comment-section.component.scss',
   template: `
     <section class="comment-section">
       <h2 class="title">Commentaires</h2>
-      <app-comment-card *ngFor="let comment of comments" [comment]="comment" />
+      <app-comment-detail *ngFor="let comment of comments" [comment]="comment" />
       <app-comment-form [newComment]="newComment" (newCommentChange)="newCommentChange.emit($event)" (commentSubmit)="submitComment.emit()" />
     </section>
   `,

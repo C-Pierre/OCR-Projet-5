@@ -10,9 +10,10 @@ import { UserService } from 'src/app/core/api/services/user/user.service';
 import { SessionService } from 'src/app/core/api/services/auth/session.service';
 import { CommentService } from 'src/app/core/api/services/comment/comment.service';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
-import { PostSectionComponent } from 'src/app/components/sections/post/post-section.component';
+import { CommentRequest } from 'src/app/core/models/comment/request/commentRequest.interface';
 import { CommentSectionComponent } from 'src/app/components/sections/comment/comment-section.component';
 import { ButtonBackComponent } from 'src/app/components/elements/shared/button-back/button-back.component';
+import { PostDetailSectionComponent } from 'src/app/components/sections/post/detail/post-detail-section.component';
 
 @Component({
   selector: 'app-post',
@@ -20,16 +21,16 @@ import { ButtonBackComponent } from 'src/app/components/elements/shared/button-b
   imports: [
     CommonModule,
     HeaderComponent,
-    PostSectionComponent,
+    PostDetailSectionComponent,
     CommentSectionComponent,
     ButtonBackComponent
   ],
-  styleUrl: './post.component.scss',
+  styleUrl: './post-detail.component.scss',
   template: `
     <app-header />
     <main class="post-container" *ngIf="post">
       <app-button-back />
-      <app-post-section [post]="post" />
+      <app-post-detail-section [post]="post" />
       <app-comment-section
         [comments]="comments"
         [(newComment)]="newComment"
@@ -38,7 +39,7 @@ import { ButtonBackComponent } from 'src/app/components/elements/shared/button-b
     </main>
   `,
 })
-export class PostComponent implements OnInit {
+export class PostDetailComponent implements OnInit {
 
   post!: Post;
   comments: Comment[] = [];
@@ -92,11 +93,10 @@ export class PostComponent implements OnInit {
   submitComment(): void {
     if (!this.newComment.trim()) return;
 
-    const comment: Comment = {
+    const comment: CommentRequest = {
       content: this.newComment,
       postId: this.post.id,
-      userId: this.userId,
-      authorUsername: this.authorUsername || 'User',
+      userId: this.userId
     };
 
     this.commentService.create(comment).subscribe({

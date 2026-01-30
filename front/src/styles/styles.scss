@@ -10,3 +10,43 @@ body {
     max-width: $bp-large;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.form-container {
+    position: relative;
+    max-width: 300px;
+    margin: 2rem auto;
+    padding: 2rem;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+
+        label {
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: $radius-sm;
+            border: 1px solid $color-grey-fifth;
+        }
+
+        .error {
+            color: $color-error;
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+    }
+
+    app-button {
+        width: fit-content;
+        margin: auto;
+        display: block;
+    }
+} 

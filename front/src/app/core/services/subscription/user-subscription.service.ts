@@ -58,7 +58,7 @@ export class UserSubscriptionService {
     if (!subjectId || !userId) return;
 
     this.subscriptionService
-      .subscribeUser(userId.toString(), subjectId.toString())
+      .subscribeUser({ userId: userId, subjectId: subjectId })
       .subscribe({
         next: () => {
           const updated = [...this.subscriptionsSubject.value];
@@ -79,7 +79,7 @@ export class UserSubscriptionService {
     if (!subjectId || !userId) return;
 
     this.subscriptionService
-      .unSubscribeUser(userId.toString(), subjectId.toString())
+      .unSubscribeUser({ userId: userId, subjectId: subjectId })
       .subscribe({
         next: () => {
           const updatedSubscriptions = this.subscriptionsSubject.value.filter(
@@ -108,7 +108,7 @@ export class UserSubscriptionService {
     if (!confirmed) return;
 
     this.subscriptionService
-      .unSubscribeUser(userId.toString(), subjectId.toString())
+      .unSubscribeUser({ userId: userId, subjectId: subjectId })
       .subscribe({
         next: () => {
           const updatedSubscriptions = this.subscriptionsSubject.value.filter(

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SessionInfo } from 'src/app/core/models/auth/sessionInfo.interface';
-import { LoginRequest } from 'src/app/core/models/auth/loginRequest.interface';
-import { RegisterRequest } from 'src/app/core/models/auth/registerRequest.interface';
+import { LoginRequest } from 'src/app/core/models/auth/request/loginRequest.interface';
+import { RegisterRequest } from 'src/app/core/models/auth/request/registerRequest.interface';
 
 @Injectable({
   providedIn: 'root'

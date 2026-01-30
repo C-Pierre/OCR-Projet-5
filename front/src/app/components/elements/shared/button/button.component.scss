@@ -1,30 +1,32 @@
+@import 'src/styles/variables';
+
 .btn {
     padding: 0.5rem 1rem;
-    border-radius: 8px;
+    border-radius: $radius-sm;
     cursor: pointer;
     font-weight: 500;
     text-decoration: none;
     transition: all .3s ease;
 
     &.primary {
-            border: 1px solid #7763C5;
-            background-color: #7763C5;
-            color: white;
+            border: 1px solid $color-primary;
+            background-color: $color-primary;
+            color: $color-white;
         &:hover {
-            background-color: white;
-            color: #7763C5;
-            border-color: #7763C5;
+            background-color: $color-white;
+            color: $color-primary;
+            border-color: $color-primary;
         }
     }
 
     &.secondary {
-            border: 1px solid #000;
-            background-color: #fff;
-            color: #000;
+            border: 1px solid $color-black;
+            background-color: $color-white;
+            color: $color-black;
         &:hover {
-            background-color: #7763C5;
-            color: #fff;
-            border-color: #7763C5;
+            background-color: $color-primary;
+            color: $color-white;
+            border-color: $color-primary;
         }
     }
 

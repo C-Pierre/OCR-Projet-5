@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subscription } from 'src/app/core/models/subscription/subscription.interface';
+import { SubscriptionRequest } from 'src/app/core/models/subscription/request/subscriptionRequest.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +18,18 @@ export class SubscriptionService {
     return this.httpClient.get<Subscription[]>(`${this.pathService}/user/${userId}`);
   }
 
-  public subscribeUser(userId: string, subjectId: string): Observable<void> {
+  public subscribeUser(request: SubscriptionRequest): Observable<SubscriptionRequest> {
     const params = new HttpParams()
-      .set('userId', userId)
-      .set('subjectId', subjectId);
+      .set('userId', request.userId)
+      .set('subjectId', request.subjectId);
 
-    return this.httpClient.post<void>(this.pathService, null, { params });
+    return this.httpClient.post<SubscriptionRequest>(this.pathService, null, { params });
   }
 
-  public unSubscribeUser(userId: string, subjectId: string): Observable<void> {
+  public unSubscribeUser(request: SubscriptionRequest): Observable<void> {
     const params = new HttpParams()
-      .set('userId', userId)
-      .set('subjectId', subjectId);
+      .set('userId', request.userId)
+      .set('subjectId', request.subjectId);
 
     return this.httpClient.delete<void>(this.pathService, { params });
   }

@@ -3,10 +3,10 @@ import { Component, Input } from '@angular/core';
 import { Comment } from 'src/app/core/models/comment/comment.interface';
 
 @Component({
-  selector: 'app-comment-card',
+  selector: 'app-comment-detail',
   standalone: true,
   imports: [CommonModule],
-  styleUrl: './comment-card.component.scss',
+  styleUrl: './comment-detail.component.scss',
   template: `
       <div class="comment" *ngIf="comment">
         <div class="username">
@@ -18,7 +18,7 @@ import { Comment } from 'src/app/core/models/comment/comment.interface';
       </div>
   `,
 })
-export class CommentCardComponent {
+export class CommentDetailComponent {
 
   @Input({ required: true }) comment!: Comment;
   @Input() newComment = '';
