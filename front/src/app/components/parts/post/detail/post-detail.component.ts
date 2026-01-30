@@ -3,10 +3,10 @@ import { Component, Input } from '@angular/core';
 import { Post } from 'src/app/core/models/post/post.interface';
 
 @Component({
-    selector: 'app-post-card',
+    selector: 'app-post-detail',
     standalone: true,
     imports: [CommonModule],
-    styleUrl: './post-card.component.scss',
+    styleUrl: './post-detail.component.scss',
     template: `
         <div class="post-card" *ngIf="post">
             <div class="post-meta">
@@ -18,7 +18,7 @@ import { Post } from 'src/app/core/models/post/post.interface';
         </div>
     `,
 })
-export class PostCardComponent {
+export class PostDetailComponent {
 
   @Input({ required: true }) post!: Post;
 }

@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -30,15 +30,18 @@ export class FeedComponent implements OnInit {
   sortKey: 'title' | 'date' | 'author' = 'date';
 
   constructor(
+    private router: Router,
     private feedService: PostService,
     private sessionService: SessionService
   ) {}
 
   ngOnInit(): void {
     const userId = this.sessionService.sessionInformation?.id;
-    if (!userId) return;
+    if (!userId) {
+      this.router.navigate(['/']);
+      return
+    }
     this.feedService.getAllForUser(userId.toString()).subscribe(data => {
-    console.log('data +>', data)
       this.posts = data;
       this.sortPosts();
     });

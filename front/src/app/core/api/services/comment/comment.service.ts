@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Comment } from 'src/app/core/models/comment/comment.interface';
+import { CommentRequest } from 'src/app/core/models/comment/request/commentRequest.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class CommentService {
     return this.httpClient.get<Comment[]>(`${this.pathService}/post/${postId}`);
   }
 
-  public create(comment: Comment): Observable<Comment> {
-    return this.httpClient.post<Comment>(this.pathService, comment);
+  public create(comment: CommentRequest): Observable<CommentRequest> {
+    return this.httpClient.post<CommentRequest>(this.pathService, comment);
   }
 }

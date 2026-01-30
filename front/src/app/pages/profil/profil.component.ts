@@ -8,8 +8,8 @@ import { SessionService } from 'src/app/core/api/services/auth/session.service';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
 import { ProfilFormComponent } from 'src/app/components/parts/profil/form/profil-form.component';
-import { ConfirmModalComponent } from 'src/app/components/parts/shared/modal/confirm-modal.component';
 import { SubscriptionService } from 'src/app/core/api/services/subscription/subscription.service';
+import { ConfirmModalComponent } from 'src/app/components/parts/shared/modal/confirm-modal.component';
 import { UserSubscriptionService } from 'src/app/core/services/subscription/user-subscription.service';
 import { SubscriptionsComponent } from 'src/app/components/sections/profil/subscription/subscriptions.component';
 
