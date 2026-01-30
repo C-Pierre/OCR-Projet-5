@@ -17,7 +17,7 @@ import { CommentCardComponent } from '../../parts/comment/card/comment-card.comp
     <section class="comment-section">
       <h2 class="title">Commentaires</h2>
       <app-comment-card *ngFor="let comment of comments" [comment]="comment" />
-      <app-comment-form [(newComment)]="newComment" (submit)="onSubmit()" />
+      <app-comment-form [newComment]="newComment" (newCommentChange)="newCommentChange.emit($event)" (commentSubmit)="submitComment.emit()" />
     </section>
   `,
 })

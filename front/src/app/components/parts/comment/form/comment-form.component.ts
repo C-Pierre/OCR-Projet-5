@@ -7,12 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-comment-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatIcon,
-    MatIconButton
-  ],
+  imports: [CommonModule, FormsModule, MatIcon, MatIconButton],
   styleUrl: './comment-form.component.scss',
   template: `
     <form class="comment-form" (ngSubmit)="onSubmit()">
@@ -27,7 +22,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         </textarea>
       </div>
 
-
       <button mat-icon-button class="submit-btn" type="submit" [disabled]="!newComment.trim()">
         <mat-icon>send_outlined</mat-icon>
       </button>
@@ -35,14 +29,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `,
 })
 export class CommentFormComponent {
-
   @Input() newComment = '';
-
   @Output() newCommentChange = new EventEmitter<string>();
-  @Output() submit = new EventEmitter<void>();
+  @Output() commentSubmit = new EventEmitter<void>();
 
   onSubmit(): void {
     if (!this.newComment.trim()) return;
-    this.submit.emit();
+    this.commentSubmit.emit();
   }
 }
