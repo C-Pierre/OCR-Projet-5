@@ -23,9 +23,6 @@ public class PostDataAdapter implements PostDataPort {
     }
 
     @Override
-    public List<Post> findAll() { return postRepository.findAll(); }
-
-    @Override
     public List<Post> findAllByUserSubscriptions(Long subjectId) {
         return postRepository.findAllByUserSubscriptions(subjectId);
     }
