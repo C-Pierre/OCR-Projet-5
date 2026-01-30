@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.post.entity;
 
-import java.util.List;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import jakarta.validation.constraints.Size;
@@ -9,7 +8,6 @@ import com.openclassrooms.mddapi.user.entity.User;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import com.openclassrooms.mddapi.subject.entity.Subject;
-import com.openclassrooms.mddapi.comment.entity.Comment;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -39,15 +37,12 @@ public class Post {
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @OneToMany(
-        mappedBy = "post",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
-    private List<Comment> comments;
-
     @CreatedDate
-    @Column(updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            nullable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -83,8 +78,6 @@ public class Post {
         return author;
     }
 
-    public List<Comment> getComments() { return comments; }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -93,19 +86,11 @@ public class Post {
         return updatedAt;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
 
     public void setSubject(Subject subject) {
         this.subject = subject;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
     }
 }
