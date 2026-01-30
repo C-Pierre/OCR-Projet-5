@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { LoginRequest } from 'src/app/core/models/auth/loginRequest.interface';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
+import { ButtonBackComponent } from 'src/app/components/elements/shared/button-back/button-back.component';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ import { ButtonComponent } from 'src/app/components/elements/shared/button/butto
     CommonModule,
     ReactiveFormsModule,
     ButtonComponent,
-    HeaderComponent
+    HeaderComponent,
+    ButtonBackComponent
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -51,5 +53,9 @@ export class LoginComponent {
     } catch (error) {
       this.onError = true;
     }
+  }
+
+  back() {
+      window.history.back();
   }
 }

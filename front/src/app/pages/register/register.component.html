@@ -1,6 +1,8 @@
-<app-header></app-header>
+<app-header />
 
 <div class="register-container">
+  <app-button-back />
+
   <h2>Inscription</h2>
 
   <form [formGroup]="registerForm" (ngSubmit)="submit()">
