@@ -7,12 +7,12 @@ import com.openclassrooms.mddapi.post.mapper.PostMapper;
 import com.openclassrooms.mddapi.post.repository.port.PostDataPort;
 
 @Service
-public class GetPostWithUserSubscriptionsService {
+public class GetPostsForUserFeed {
 
     private final PostMapper postMapper;
     private final PostDataPort postDataPort;
 
-    public GetPostWithUserSubscriptionsService(
+    public GetPostsForUserFeed(
         PostMapper postMapper,
         PostDataPort postDataPort
     ) {
@@ -20,11 +20,6 @@ public class GetPostWithUserSubscriptionsService {
         this.postDataPort = postDataPort;
     }
 
-    /**
-     * Récupère tous les posts pour les sujets auxquels l'utilisateur est abonné.
-     * @param userId L'ID de l'utilisateur
-     * @return Liste de PostDto
-     */
     public List<PostDto> execute(Long userId) {
         return postDataPort.findAllByUserSubscriptions(userId)
             .stream()

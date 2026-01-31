@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.openclassrooms.mddapi.subject.dto.SubjectDto;
+import org.springframework.security.access.prepost.PreAuthorize;
 import com.openclassrooms.mddapi.subject.service.GetSubjectsService;
 import com.openclassrooms.mddapi.subject.dto.SubjectWithSubscriptionDto;
 import com.openclassrooms.mddapi.subject.service.GetSubjectsWithSubscriptionService;
@@ -16,8 +17,8 @@ public class SubjectController {
     private final GetSubjectsService getSubjectsService;
 
     public SubjectController(
-            GetSubjectsWithSubscriptionService getSubjectsWithSubscriptionService,
-            GetSubjectsService getSubjectsService
+        GetSubjectsWithSubscriptionService getSubjectsWithSubscriptionService,
+        GetSubjectsService getSubjectsService
     ) {
         this.getSubjectsWithSubscriptionService = getSubjectsWithSubscriptionService;
         this.getSubjectsService = getSubjectsService;
@@ -29,6 +30,7 @@ public class SubjectController {
     }
 
     @GetMapping("/user/{userId}")
+    @PreAuthorize("@subscriptionAuthorization.canGet(#userId)")
     public ResponseEntity<List<SubjectWithSubscriptionDto>> getAllSubjectsForUser(@PathVariable Long userId) {
         return ResponseEntity.ok(getSubjectsWithSubscriptionService.execute(userId));
     }

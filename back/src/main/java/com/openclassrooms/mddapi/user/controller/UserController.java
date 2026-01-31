@@ -2,11 +2,12 @@ package com.openclassrooms.mddapi.user.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import com.openclassrooms.mddapi.user.dto.UserDto;
 import org.springframework.web.bind.annotation.*;
+import com.openclassrooms.mddapi.user.dto.UserDto;
 import com.openclassrooms.mddapi.user.service.GetUserService;
 import com.openclassrooms.mddapi.user.service.UpdateUserService;
 import com.openclassrooms.mddapi.user.request.UpdateUserRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/users")
@@ -24,11 +25,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("@userAuthorization.canGet(#request.id)")
     public ResponseEntity<UserDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(getUserService.execute(id));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("@userAuthorization.canUpdate(#request.id)")
     public ResponseEntity<UserDto> update(
         @PathVariable Long id,
         @Valid @RequestBody UpdateUserRequest request

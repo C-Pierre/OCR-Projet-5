@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (user == null) {
             throw new UsernameNotFoundException(
-                    "Utilisateur non trouvé avec le id : " + id
+                "Utilisateur non trouvé avec le id : " + id
             );
         }
 
@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (user == null) {
             throw new UsernameNotFoundException(
-                    "Utilisateur non trouvé avec le username : " + username
+                "Utilisateur non trouvé avec le username : " + username
             );
         }
 

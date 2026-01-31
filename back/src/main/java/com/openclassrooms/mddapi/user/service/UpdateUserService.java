@@ -27,6 +27,7 @@ public class UpdateUserService {
 
     public UserDto execute(Long id, UpdateUserRequest request) {
         User user = userDataPort.getById(id);
+
         boolean modified = false;
 
         if (request.userName() != null && !request.userName().equals(user.getUserName())) {

@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.subscription.entity;
 
+import com.openclassrooms.mddapi.common.authorization.Ownable;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import com.openclassrooms.mddapi.user.entity.User;
@@ -10,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name = "subscription", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "subject_id"}))
 @EntityListeners(AuditingEntityListener.class)
-public class Subscription {
+public class Subscription implements Ownable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +40,16 @@ public class Subscription {
     public User getUser() { return user; }
     public Subject getSubject() { return subject; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    @Override
+    public Long ownerId() {
+        return user != null ? user.getId() : null;
+    }
+
+    @Override
+    public String resourceName() {
+        return "subscription";
+    }
 
     public void setUser(User user) { this.user = user; }
     public void setSubject(Subject subject) { this.subject = subject; }

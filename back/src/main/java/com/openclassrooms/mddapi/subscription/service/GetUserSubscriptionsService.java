@@ -7,26 +7,26 @@ import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.subject.dto.SubjectDto;
 import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
-import com.openclassrooms.mddapi.subscription.repository.SubscriptionRepository;
+import com.openclassrooms.mddapi.subscription.repository.port.SubscriptionDataPort;
 
 @Service
 public class GetUserSubscriptionsService {
 
-    private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionDataPort subscriptionDataPort;
     private final UserDataPort userDataPort;
 
     public GetUserSubscriptionsService(
-        SubscriptionRepository subscriptionRepository,
+        SubscriptionDataPort subscriptionDataPort,
         UserDataPort userDataPort
     ) {
-        this.subscriptionRepository = subscriptionRepository;
+        this.subscriptionDataPort = subscriptionDataPort;
         this.userDataPort = userDataPort;
     }
 
     public List<SubjectDto> execute(Long userId) {
         User user = userDataPort.getById(userId);
 
-        List<Subscription> subscriptions = subscriptionRepository.findByUserId(user.getId());
+        List<Subscription> subscriptions = subscriptionDataPort.findByUserId(user.getId());
 
         return subscriptions.stream()
             .map(sub -> new SubjectDto(
