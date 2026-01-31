@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.subscription.repository.adapter;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.common.exception.NotFoundException;
@@ -19,20 +21,16 @@ public class SubscriptionDataAdapter implements SubscriptionDataPort {
     }
 
     @Override
-    public Subscription findByUserIdAndSubjectId(Long userId, Long subjectId) {
-        return subscriptionRepository.findByUserIdAndSubjectId(userId, subjectId)
-            .orElseThrow(() -> new NotFoundException(
-                "Subscription not found for userId: " + userId + " and subjectId: " + subjectId
-            )
-        );
+    public Optional<Subscription> findByUserIdAndSubjectId(Long userId, Long subjectId) {
+        return subscriptionRepository.findByUserIdAndSubjectId(userId, subjectId);
     }
 
     @Override
     public List<Subscription> findByUserId(Long userId) { return subscriptionRepository.findByUserId(userId); }
 
     @Override
-    public List<Subscription> findBySubjectId(Long subjectId) {
-        return subscriptionRepository.findBySubjectId(subjectId);
+    public void delete(Subscription subscription) {
+        subscriptionRepository.delete(subscription);
     }
 
     @Override

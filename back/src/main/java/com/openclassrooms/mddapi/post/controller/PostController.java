@@ -8,18 +8,19 @@ import com.openclassrooms.mddapi.post.dto.PostDto;
 import com.openclassrooms.mddapi.post.service.GetPostService;
 import com.openclassrooms.mddapi.post.request.CreatePostRequest;
 import com.openclassrooms.mddapi.post.service.CreatePostService;
-import com.openclassrooms.mddapi.post.service.GetPostWithUserSubscriptionsService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import com.openclassrooms.mddapi.post.service.GetPostsForUserFeed;
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
-    private final GetPostWithUserSubscriptionsService getPostWithUserSubscriptionsService;
+    private final GetPostsForUserFeed getPostWithUserSubscriptionsService;
     private final CreatePostService createPostService;
     private final GetPostService getPostService;
 
     public PostController(
-        GetPostWithUserSubscriptionsService getPostWithUserSubscriptionsService,
+        GetPostsForUserFeed getPostWithUserSubscriptionsService,
         CreatePostService createPostService,
         GetPostService getPostService
     ) {
@@ -35,6 +36,7 @@ public class PostController {
     }
 
     @GetMapping("/user/{userId}")
+    @PreAuthorize("@subscriptionAuthorization.canGet(#userId)")
     public ResponseEntity<List<PostDto>> getByUserSubscriptions(@PathVariable Long userId) {
         List<PostDto> posts = getPostWithUserSubscriptionsService.execute(userId);
         return ResponseEntity.ok(posts);

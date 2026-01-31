@@ -6,35 +6,40 @@ import com.openclassrooms.mddapi.subject.entity.Subject;
 import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import com.openclassrooms.mddapi.common.exception.BadRequestException;
+import com.openclassrooms.mddapi.subscription.request.SubscribeRequest;
 import com.openclassrooms.mddapi.subject.repository.port.SubjectDataPort;
-import com.openclassrooms.mddapi.subscription.repository.SubscriptionRepository;
+import com.openclassrooms.mddapi.subscription.repository.port.SubscriptionDataPort;
 
 @Service
 public class SubscribeService {
 
-    private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionDataPort subscriptionDataPort;
     private final SubjectDataPort subjectDataPort;
     private final UserDataPort userDataPort;
 
     public SubscribeService(
-        SubscriptionRepository subscriptionRepository,
+        SubscriptionDataPort subscriptionDataPort,
         SubjectDataPort subjectDataPort,
         UserDataPort userDataPort
     ) {
-        this.subscriptionRepository = subscriptionRepository;
+        this.subscriptionDataPort = subscriptionDataPort;
         this.subjectDataPort = subjectDataPort;
         this.userDataPort = userDataPort;
     }
 
-    public void execute(Long subjectId, Long userId) {
-        Subject subject = subjectDataPort.getById(subjectId);
-        User user = userDataPort.getById(userId);
+    public void execute(SubscribeRequest request) {
+        Subject subject = subjectDataPort.getById(request.subjectId());
+        User user = userDataPort.getById(request.userId());
 
-        if (subscriptionRepository.findByUserIdAndSubjectId(userId, subjectId).isPresent()) {
+        boolean alreadySubscribed = subscriptionDataPort
+            .findByUserIdAndSubjectId(request.userId(), request.subjectId())
+            .isPresent();
+
+        if (alreadySubscribed) {
             throw new BadRequestException("L'utilisateur est déjà abonné à ce sujet.");
         }
 
         Subscription subscription = new Subscription(user, subject);
-        subscriptionRepository.save(subscription);
+        subscriptionDataPort.save(subscription);
     }
 }

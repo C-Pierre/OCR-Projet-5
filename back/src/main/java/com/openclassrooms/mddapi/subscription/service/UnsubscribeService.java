@@ -3,24 +3,25 @@ package com.openclassrooms.mddapi.subscription.service;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.common.exception.BadRequestException;
-import com.openclassrooms.mddapi.subscription.repository.SubscriptionRepository;
+import com.openclassrooms.mddapi.subscription.request.UnsubscribeRequest;
+import com.openclassrooms.mddapi.subscription.repository.port.SubscriptionDataPort;
 
 @Service
 public class UnsubscribeService {
 
-    private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionDataPort subscriptionDataPort;
 
-    public UnsubscribeService(
-        SubscriptionRepository subscriptionRepository
-    ) {
-        this.subscriptionRepository = subscriptionRepository;
+    public UnsubscribeService(SubscriptionDataPort subscriptionDataPort) {
+        this.subscriptionDataPort = subscriptionDataPort;
     }
 
-    public void execute(Long subjectId, Long userId) {
-        Subscription subscription = subscriptionRepository
-            .findByUserIdAndSubjectId(userId, subjectId)
-            .orElseThrow(() -> new BadRequestException("L'utilisateur n'est pas abonné à ce sujet."));
+    public void execute(UnsubscribeRequest request) {
+        Subscription subscription = subscriptionDataPort
+            .findByUserIdAndSubjectId(request.userId(), request.subjectId())
+            .orElseThrow(() -> new BadRequestException(
+                "L'utilisateur n'est pas abonné à ce sujet."
+            ));
 
-        subscriptionRepository.delete(subscription);
+        subscriptionDataPort.delete(subscription);
     }
 }

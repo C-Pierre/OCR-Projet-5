@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 @SpringBootApplication(scanBasePackages = "com.openclassrooms.mddapi")
 public class MddApiApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MddApiApplication.class, args);
 	}
