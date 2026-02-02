@@ -8,7 +8,8 @@ import { Comment } from 'src/app/core/models/comment/comment.interface';
   imports: [CommonModule],
   styleUrl: './comment-detail.component.scss',
   template: `
-      <div class="comment" *ngIf="comment">
+    @if (comment) {
+      <div class="comment">
         <div class="username">
           {{ comment.authorUsername }}
         </div>
@@ -16,6 +17,7 @@ import { Comment } from 'src/app/core/models/comment/comment.interface';
           {{ comment.content }}
         </div>
       </div>
+    }
   `,
 })
 export class CommentDetailComponent {

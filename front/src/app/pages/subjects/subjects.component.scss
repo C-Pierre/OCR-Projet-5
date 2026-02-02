@@ -3,27 +3,23 @@
 .container {
   margin: auto;
   padding: 24px;
+
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .theme-card {
+    display: flex;
+    flex-direction: column;
+    background: $color-grey-second;
+    border-radius: $radius-sm;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .subscribe { background-color: $color-grey-third; }
+  .subscribed { background-color: $color-primary; }
 }
 
-.themes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-.theme-card {
-  display: flex;
-  flex-direction: column;
-  background: $color-grey-second;
-  border-radius: $radius-sm;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.subscribe {
-  background-color: $color-secondary;
-}
-
-.subscribed {
-  background-color: $color-primary;
-}

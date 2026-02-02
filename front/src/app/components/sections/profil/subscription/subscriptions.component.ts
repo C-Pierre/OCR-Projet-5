@@ -13,13 +13,15 @@ import { SubscriptionComponent } from 'src/app/components/parts/shared/subscript
       <h2>Abonnements</h2>
 
       <div class="subscriptions-list">
-      <app-subscription
-        *ngFor="let sub of subscriptions; trackBy: trackById"
-        [name]="sub.name"
-        [description]="sub.description"
-        [subscribed]="true"
-        (unsubscribe)="unsubscribe.emit(sub.id)">
-      </app-subscription>
+        @for (sub of subscriptions; track sub.id) {
+          <app-subscription
+            [name]="sub.name"
+            [description]="sub.description"
+            [subscribed]="true"
+            (unsubscribe)="unsubscribe.emit(sub.id)"
+          >
+          </app-subscription>
+        }
       </div>
     </section>
   `,

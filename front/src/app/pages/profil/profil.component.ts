@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { User } from 'src/app/core/models/user/user.interface';
 import { filter, switchMap, catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, firstValueFrom } from 'rxjs';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 import { UserService } from 'src/app/core/api/services/user/user.service';
 import { SessionService } from 'src/app/core/api/services/auth/session.service';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
@@ -28,6 +29,7 @@ import { SubscriptionsComponent } from 'src/app/components/sections/profil/subsc
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent implements OnInit {
+  private toastService = inject(ToastService);
   private sessionService = inject(SessionService);
   private userService = inject(UserService);
   private subscriptionService = inject(SubscriptionService);
@@ -54,11 +56,8 @@ export class ProfilComponent implements OnInit {
           }
           return this.subscriptionService.getAllForUser(user.id.toString());
         }),
-        catchError(err => {
-          console.error(
-            'Erreur lors du chargement du profil ou des subscriptions',
-            err
-          );
+        catchError(() => {
+          this.toastService.error("Erreur lors du chargement du profil ou des subscriptions.")
           return of([]);
         })
       )
@@ -77,8 +76,9 @@ export class ProfilComponent implements OnInit {
       );
 
       this.userSubject.next(user);
+      this.toastService.success("Profil mis à jour.")
     } catch (err) {
-      console.error('Erreur lors de la mise à jour du profil', err);
+      this.toastService.error("Erreur lors de la mise à jour du profil.")
     }
   }
 
@@ -92,9 +92,5 @@ export class ProfilComponent implements OnInit {
 
   confirmUnsubscribe(): void {
     this.userSubscriptionService.confirmUnsubscribe();
-  }
-
-  unsubscribe(subjectId: number): void {
-    this.userSubscriptionService.unsubscribeWithConfirm(subjectId);
   }
 }

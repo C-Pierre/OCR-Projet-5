@@ -18,12 +18,13 @@
       (unsubscribe)="openUnsubscribeModal($event)">
     </app-subscriptions>
 
-    <app-confirm-modal
-      *ngIf="showUnsubscribeModal$ | async"
-      title="Confirmation"
-      message="Êtes-vous sûr de vouloir vous désabonner ?"
-      (confirm)="confirmUnsubscribe()"
-      (cancel)="cancelUnsubscribe()">
-    </app-confirm-modal>
+    @if (showUnsubscribeModal$ | async) {
+      <app-confirm-modal
+        title="Confirmation"
+        message="Êtes-vous sûr de vouloir vous désabonner ?"
+        (confirm)="confirmUnsubscribe()"
+        (cancel)="cancelUnsubscribe()">
+      </app-confirm-modal>
+    }
   }
 </main>

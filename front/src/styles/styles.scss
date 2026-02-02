@@ -1,8 +1,12 @@
 @import 'src/styles/variables';
 
-html {
-    background-color: $color-white;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
+
+html { background-color: $color-white; }
 
 body {
     height: 100%;
@@ -13,35 +17,34 @@ body {
 
 .form-container {
     position: relative;
-    max-width: 300px;
+    max-width: 400px;
     margin: 2rem auto;
-    padding: 2rem;
+    padding: 0 2rem 2rem;
 
-    h2 {
-        text-align: center;
-        margin-bottom: 1.5rem;
-    }
+    h2 { text-align: center; margin-bottom: 1.5rem; }
 
     .form-group {
         margin-bottom: 1rem;
 
-        label {
-            display: block;
-            margin-bottom: 0.3rem;
-        }
+        label { display: block; margin-bottom: 0.3rem; }
 
-        input, textarea, select {
+        input,
+        textarea,
+        select {
+            display: block;
             width: 100%;
+            max-width: 100%;
             padding: 0.5rem;
             border-radius: $radius-sm;
-            border: 1px solid $color-grey-fifth;
+            border: 1px solid $color-grey-fourth;
         }
+    }
 
-        .error {
-            color: $color-error;
-            font-size: 0.8rem;
-            margin-top: 0.2rem;
-        }
+    .error {
+        text-align: center;
+        margin-top: 1rem;
+        color: $color-error;
+        font-weight: 500;
     }
 
     app-button {
@@ -50,3 +53,7 @@ body {
         display: block;
     }
 } 
+
+@media screen and (max-width: $bp-extra-small) {
+    .form-container { margin: 2rem; }
+}

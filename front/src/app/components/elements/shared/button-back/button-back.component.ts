@@ -14,7 +14,11 @@ import { MatIconButton } from '@angular/material/button';
     `,
     styles: `
         button {
-            position: absolute; left: -3.5rem; top: 1.5rem;
+            position: absolute; left: -3.5rem; top: -0.5rem;
+        }
+
+        @media screen and (max-width: 880px) {
+            button { left: -2rem; top: -0.5rem; }
         }
     `
 })

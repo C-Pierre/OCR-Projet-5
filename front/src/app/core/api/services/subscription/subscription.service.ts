@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subscription } from 'src/app/core/models/subscription/subscription.interface';
 import { SubscriptionRequest } from 'src/app/core/models/subscription/request/subscriptionRequest.interface';
 
@@ -19,18 +19,10 @@ export class SubscriptionService {
   }
 
   public subscribeUser(request: SubscriptionRequest): Observable<SubscriptionRequest> {
-    const params = new HttpParams()
-      .set('userId', request.userId)
-      .set('subjectId', request.subjectId);
-
-    return this.httpClient.post<SubscriptionRequest>(this.pathService, null, { params });
+    return this.httpClient.post<SubscriptionRequest>(this.pathService, request);
   }
 
-  public unSubscribeUser(request: SubscriptionRequest): Observable<void> {
-    const params = new HttpParams()
-      .set('userId', request.userId)
-      .set('subjectId', request.subjectId);
-
-    return this.httpClient.delete<void>(this.pathService, { params });
+  public unSubscribeUser(request: SubscriptionRequest): Observable<SubscriptionRequest> {
+    return this.httpClient.request<SubscriptionRequest>('DELETE', this.pathService, { body: request });
   }
 }

@@ -1,6 +1,14 @@
+@import 'src/styles/variables';
+
 .post-create-container {
   position: relative;
-  max-width: 300px;
+  max-width: 500px;
   margin: 2rem auto;
-  padding: 2rem;
+  text-align: center;
+}
+
+@media screen and (max-width: $bp-small) {
+    .post-create-container {
+        margin: 2rem;
+    }
 }

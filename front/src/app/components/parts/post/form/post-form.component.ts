@@ -9,34 +9,50 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
     styleUrl: './post-form.component.scss',
     template: `
         <div [formGroup]="postForm" class="form-container">
+            <h2>Créer un nouvel article</h2>
+
             <div class="form-group">
             <label for="subjectId">Sujet</label>
             <select id="subjectId" formControlName="subjectId">
                 <option value="" disabled selected>Choisir un sujet</option>
-                <option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</option>
+
+                @for (subject of subjects; track subject.id) {
+                <option [value]="subject.id">
+                    {{ subject.name }}
+                </option>
+                }
             </select>
-            <div class="error" *ngIf="postForm.get('subjectId')?.invalid && postForm.get('subjectId')?.touched">
+
+            @if (postForm.get('subjectId')?.invalid && postForm.get('subjectId')?.touched) {
+                <div class="error">
                 Sujet requis
-            </div>
+                </div>
+            }
             </div>
 
             <div class="form-group">
             <label for="title">Titre</label>
             <input id="title" type="text" formControlName="title">
-            <div class="error" *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
+
+            @if (postForm.get('title')?.invalid && postForm.get('title')?.touched) {
+                <div class="error">
                 Titre requis (max 200 caractères)
-            </div>
+                </div>
+            }
             </div>
 
             <div class="form-group">
             <label for="content">Contenu</label>
             <textarea id="content" formControlName="content" rows="6"></textarea>
-            <div class="error" *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+
+            @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
+                <div class="error">
                 Contenu requis (max 5000 caractères)
-            </div>
+                </div>
+            }
             </div>
         </div>
-    `
+    `,
 })
 export class PostFormComponent {
   @Input() postForm!: FormGroup;

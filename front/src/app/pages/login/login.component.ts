@@ -21,8 +21,7 @@ import { ButtonBackComponent } from 'src/app/components/elements/shared/button-b
     HeaderComponent,
     ButtonBackComponent
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
 
