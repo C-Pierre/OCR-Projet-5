@@ -9,7 +9,7 @@ import com.openclassrooms.mddapi.subject.entity.Subject;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "subscription", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "subject_id"}))
+@Table(name = "subscriptions", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "subject_id"}))
 @EntityListeners(AuditingEntityListener.class)
 public class Subscription implements Ownable {
 

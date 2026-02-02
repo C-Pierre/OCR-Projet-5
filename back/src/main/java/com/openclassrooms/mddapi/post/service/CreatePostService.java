@@ -35,7 +35,7 @@ public class CreatePostService {
         User user = userDataPort.getById(request.authorId());
         Subject subject = subjectDataPort.getById(request.subjectId());
 
-        Post post = new Post(request.content(), request.title(), subject, user);
+        Post post = new Post(request.title(), request.content(), subject, user);
 
         postDataPort.save(post);
 

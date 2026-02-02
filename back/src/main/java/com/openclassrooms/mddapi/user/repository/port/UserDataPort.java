@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.user.repository.port;
 
 import com.openclassrooms.mddapi.user.entity.User;
-import com.openclassrooms.mddapi.common.exception.NotFoundException;
+import com.openclassrooms.mddapi.common.exception.type.NotFoundException;
 
 public interface UserDataPort {
     boolean existsByUserName(String userName);

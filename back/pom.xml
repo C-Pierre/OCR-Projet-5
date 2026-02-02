@@ -156,7 +156,7 @@
                                 <exclude>com/openclassrooms/mddapi/**/dto/**</exclude>
                                 <exclude>com/openclassrooms/mddapi/**/response/**</exclude>
                                 <exclude>com/openclassrooms/mddapi/**/configuration/**</exclude>
-                                <exclude>com/openclassrooms/mddapi/**/exception/**</exclude>
+                                <exclude>com/openclassrooms/mddapi/**/exception/type/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -183,7 +183,7 @@
                                 <exclude>com/openclassrooms/mddapi/**/dto/**</exclude>
                                 <exclude>com/openclassrooms/mddapi/**/response/**</exclude>
                                 <exclude>com/openclassrooms/mddapi/**/configuration/**</exclude>
-                                <exclude>com/openclassrooms/mddapi/**/exception/**</exclude>
+                                <exclude>com/openclassrooms/mddapi/**/exception/type/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>

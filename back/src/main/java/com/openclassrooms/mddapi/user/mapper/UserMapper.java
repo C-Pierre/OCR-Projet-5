@@ -6,6 +6,5 @@ import com.openclassrooms.mddapi.user.dto.UserDto;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
     UserDto toDto(User user);
 }

@@ -5,7 +5,7 @@ import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.subject.entity.Subject;
 import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
-import com.openclassrooms.mddapi.common.exception.BadRequestException;
+import com.openclassrooms.mddapi.common.exception.type.BadRequestException;
 import com.openclassrooms.mddapi.subscription.request.SubscribeRequest;
 import com.openclassrooms.mddapi.subject.repository.port.SubjectDataPort;
 import com.openclassrooms.mddapi.subscription.repository.port.SubscriptionDataPort;

@@ -2,12 +2,15 @@ package com.openclassrooms.mddapi.configuration;
 
 import java.sql.Connection;
 import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 
 @Component
+@Profile("!test")
 public class DatabaseSeeder implements CommandLineRunner {
 
     private final DataSource dataSource;
