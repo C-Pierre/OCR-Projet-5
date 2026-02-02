@@ -6,7 +6,7 @@ import com.openclassrooms.mddapi.auth.request.RegisterRequest;
 import com.openclassrooms.mddapi.common.response.MessageResponse;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.openclassrooms.mddapi.common.exception.BadRequestException;
+import com.openclassrooms.mddapi.common.exception.type.BadRequestException;
 
 @Service
 public class AuthRegisterService {

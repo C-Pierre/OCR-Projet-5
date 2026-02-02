@@ -12,7 +12,7 @@ import com.openclassrooms.mddapi.subscription.entity.Subscription;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "subject")
+@Table(name = "subjects")
 @EntityListeners(AuditingEntityListener.class)
 public class Subject {
 

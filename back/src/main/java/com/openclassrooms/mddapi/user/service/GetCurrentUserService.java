@@ -6,7 +6,7 @@ import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.user.mapper.UserMapper;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import org.springframework.security.core.context.SecurityContextHolder;
-import com.openclassrooms.mddapi.common.exception.UnauthorizedException;
+import com.openclassrooms.mddapi.common.exception.type.UnauthorizedException;
 
 @Service
 public class GetCurrentUserService {

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.user.repository.UserRepository;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
-import com.openclassrooms.mddapi.common.exception.NotFoundException;
+import com.openclassrooms.mddapi.common.exception.type.NotFoundException;
 
 @Service
 public class UserDataAdapter implements UserDataPort {

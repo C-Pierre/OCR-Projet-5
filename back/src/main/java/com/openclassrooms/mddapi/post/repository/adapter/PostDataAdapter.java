@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.post.entity.Post;
 import com.openclassrooms.mddapi.post.repository.PostRepository;
 import com.openclassrooms.mddapi.post.repository.port.PostDataPort;
-import com.openclassrooms.mddapi.common.exception.NotFoundException;
+import com.openclassrooms.mddapi.common.exception.type.NotFoundException;
 
 @Service
 public class PostDataAdapter implements PostDataPort {

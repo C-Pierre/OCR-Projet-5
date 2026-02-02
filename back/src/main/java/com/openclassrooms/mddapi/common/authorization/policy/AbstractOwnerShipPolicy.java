@@ -3,7 +3,7 @@ package com.openclassrooms.mddapi.common.authorization.policy;
 import java.util.EnumSet;
 import com.openclassrooms.mddapi.common.authorization.Action;
 import com.openclassrooms.mddapi.common.authorization.Ownable;
-import com.openclassrooms.mddapi.common.exception.ForbiddenException;
+import com.openclassrooms.mddapi.common.exception.type.ForbiddenException;
 import com.openclassrooms.mddapi.user.service.GetCurrentUserService;
 
 public abstract class AbstractOwnerShipPolicy implements AuthorizationPolicy {

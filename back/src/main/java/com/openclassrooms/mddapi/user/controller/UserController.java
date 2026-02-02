@@ -17,8 +17,8 @@ public class UserController {
     private final UpdateUserService updateUserService;
 
     public UserController(
-            GetUserService getUserService,
-            UpdateUserService updateUserService
+        GetUserService getUserService,
+        UpdateUserService updateUserService
     ) {
         this.getUserService = getUserService;
         this.updateUserService = updateUserService;
@@ -33,8 +33,8 @@ public class UserController {
     @PutMapping("/{id}")
     @PreAuthorize("@userAuthorization.canUpdate(#id)")
     public ResponseEntity<UserDto> update(
-            @PathVariable Long id,
-            @Valid @RequestBody UpdateUserRequest request
+        @PathVariable Long id,
+        @Valid @RequestBody UpdateUserRequest request
     ) {
         return ResponseEntity.ok(updateUserService.execute(id, request));
     }

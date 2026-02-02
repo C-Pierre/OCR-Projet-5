@@ -1,7 +1,7 @@
 # Application
 spring.application.name=mdd-api
 spring.profiles.active=dev
-app.token.secret=TO_DO
+app.token.secret=TOkenBIDONs39SSosBnrhFcNivCLgvrq4EONxpvcIgR3F7Q7cdB0MryMiB1IoRiNusplHcE8jC4c5KMMTtuVm5Fc478845877a94d8d5e952f27ca51d3348ee779136b93ad259c533d54c5cbba5c
 app.frontUrl=http://localhost:4200
 app.token.expiration=86400000
 
@@ -11,12 +11,14 @@ server.servlet.context-path=/
 
 # JPA / Hibernate
 spring.jpa.open-in-view=false
-spring.jpa.hibernate.ddl-auto=none
+spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
+spring.sql.init.mode=always
 
 # Datasource
-spring.datasource.url=jdbc:mysql://localhost:3306/mdd
-spring.datasource.username=TO_DO
-spring.datasource.password=TO_DO
+spring.datasource.url=jdbc:mysql://localhost:3306/mdd?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.datasource.username=root
+spring.datasource.password=password
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver

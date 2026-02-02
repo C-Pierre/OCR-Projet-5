@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import com.openclassrooms.mddapi.auth.request.LoginRequest;
 import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import com.openclassrooms.mddapi.auth.jwt.response.JwtResponse;
-import com.openclassrooms.mddapi.common.exception.BadRequestException;
+import com.openclassrooms.mddapi.common.exception.type.BadRequestException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
