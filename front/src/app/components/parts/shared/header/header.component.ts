@@ -2,19 +2,20 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { Component, HostListener, ElementRef, inject } from '@angular/core';
 import { SessionService } from 'src/app/core/api/services/auth/session.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, RouterModule],
+  imports: [CommonModule, MatButtonModule, RouterModule],
   styleUrls: ['./header.component.scss'],
   template: `
-    <mat-toolbar class="header">
+    <header class="header">
       <div class="header-left">
-        <a routerLink="/"><img src="/assets/images/logo_p6.png" alt="logo" /></a>
+        <a routerLink="/">
+          <img src="/assets/images/logo_p6.png" alt="logo" />
+        </a>
       </div>
 
       <div class="header-right">
@@ -23,21 +24,25 @@ import { SessionService } from 'src/app/core/api/services/auth/session.service';
         </button>
 
         <nav class="menu" [class.mobile-open]="burgerOpen">
-
           @if (isLogged$ | async) {
-            <button *ngIf="isLogged$ | async" mat-button (click)="logout()">Déconnexion</button>
+            <button mat-button (click)="logout()">Déconnexion</button>
           } @else {
             <a mat-button routerLink="/">Accueil</a>
           }
 
           <a mat-button routerLink="/feed">Articles</a>
           <a mat-button routerLink="/themes">Thèmes</a>
-          <a class="user" routerLink="/profil"><img src="/assets/icons/icon_user.png" alt="account" /></a>
+          <a class="user" routerLink="/profil">
+            <img src="/assets/icons/icon_user.png" alt="account" />
+          </a>
         </nav>
       </div>
-      <div class="overlay" *ngIf="burgerOpen" (click)="toggleBurger()"></div>
-    </mat-toolbar>
-  `
+
+      @if (burgerOpen) {
+        <div class="overlay" (click)="toggleBurger()"></div>
+      }
+    </header>
+  `,
 })
 export class HeaderComponent {
 

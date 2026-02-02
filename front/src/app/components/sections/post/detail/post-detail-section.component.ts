@@ -9,14 +9,14 @@ import { PostDetailComponent } from '../../../parts/post/detail/post-detail.comp
     imports: [CommonModule, PostDetailComponent],
     styleUrl: './post-detail-section.component.scss',
     template: `
-        <section class="post-section" *ngIf="post">
+        @if (post) {
+            <section class="post-section">
             <h1 class="post-title">{{ post.title }}</h1>
             <app-post-detail [post]="post" />
-        </section>
+            </section>
+        }
     `,
 })
 export class PostDetailSectionComponent {
-
   @Input({ required: true }) post!: Post;
-
 }

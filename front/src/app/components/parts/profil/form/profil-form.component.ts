@@ -8,8 +8,7 @@ import { ButtonComponent } from 'src/app/components/elements/shared/button/butto
   selector: 'app-profil-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
-  templateUrl: './profil-form.component.html',
-  styleUrls: ['./profil-form.component.scss']
+  templateUrl: './profil-form.component.html'
 })
 export class ProfilFormComponent implements OnChanges {
   @Input() user!: User | null;

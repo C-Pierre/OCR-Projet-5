@@ -6,7 +6,6 @@
     align-items: flex-start;
     margin-bottom: 1.5rem;
     padding: 0.8rem;
-    max-width: 400px;
     border-radius: $radius-sm;
     background-color: $color-grey-second;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -24,5 +23,11 @@
     app-button {
         align-self: center;
         margin-top: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .subscription {
+        width: 100%;
     }
 }

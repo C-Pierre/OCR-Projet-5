@@ -19,8 +19,7 @@ import { ButtonBackComponent } from 'src/app/components/elements/shared/button-b
         HeaderComponent,
         ButtonBackComponent
     ],
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss']
+    templateUrl: './register.component.html'
 })
 export class RegisterComponent {
 
@@ -53,13 +52,8 @@ export class RegisterComponent {
             await firstValueFrom(this.authService.register(registerRequest));
             this.onError = false;
             await this.router.navigate(['/login']);
-        } catch (error: any) {
-            console.error(error);
+        } catch (error) {
             this.onError = true;
         }
-    }
-
-    back() {
-        window.history.back();
     }
 }

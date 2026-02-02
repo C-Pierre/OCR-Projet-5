@@ -1,3 +1,4 @@
+@import 'src/styles/variables';
 
 .comment {
   width: 80%;
@@ -19,8 +20,12 @@
     min-height: 2rem;
     padding: .5rem;
     font-size: 15px;
-    border-radius: 16px;
-    background-color: #EEEEEE;
+    border-radius: $radius-md;
+    background-color: $color-grey-third;
   }
 }
 
+
+@media screen and (max-width: $bp-tablet) {
+  .comment { width: auto; }
+}

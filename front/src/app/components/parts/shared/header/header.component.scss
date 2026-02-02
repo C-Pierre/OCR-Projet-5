@@ -38,9 +38,7 @@
       display: flex;
       align-items: center;
 
-      a {
-        color: $color-black;
-      }
+      a { color: $color-black; }
 
       a, button {
         margin-right: 16px;
@@ -48,9 +46,7 @@
         text-decoration: none;
       }
 
-      button {
-        color: $color-alert;
-      }
+      button { color: $color-alert; }
 
       .user {
         display: flex;
@@ -60,9 +56,7 @@
         width: 48px;
         background-color: $color-grey;
         border-radius: 50%;
-        img {
-          max-width: 40px;
-        }
+        img { max-width: 40px; }
       }
     }
 
@@ -95,13 +89,9 @@
         transition: right 0.3s ease;
         z-index: 1000;
 
-        a, button {
-          margin: .5rem 0;
-        }
+        a, button { margin: .5rem 0; }
 
-        &.mobile-open {
-          right: 0;
-        }
+        &.mobile-open { right: 0; }
 
         .user {
           position: absolute;
@@ -110,9 +100,7 @@
         }
       }
 
-      .burger {
-        display: flex;
-      }
+      .burger { display: flex; }
     }
   }
 }

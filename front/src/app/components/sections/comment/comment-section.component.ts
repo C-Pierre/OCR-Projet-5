@@ -16,8 +16,16 @@ import { CommentDetailComponent } from '../../parts/comment/detail/comment-detai
   template: `
     <section class="comment-section">
       <h2 class="title">Commentaires</h2>
-      <app-comment-detail *ngFor="let comment of comments" [comment]="comment" />
-      <app-comment-form [newComment]="newComment" (newCommentChange)="newCommentChange.emit($event)" (commentSubmit)="submitComment.emit()" />
+
+      @for (comment of comments; track comment.id) {
+        <app-comment-detail [comment]="comment" />
+      }
+
+      <app-comment-form
+        [newComment]="newComment"
+        (newCommentChange)="newCommentChange.emit($event)"
+        (commentSubmit)="submitComment.emit()"
+      />
     </section>
   `,
 })

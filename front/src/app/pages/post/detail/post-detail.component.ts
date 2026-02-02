@@ -28,15 +28,18 @@ import { PostDetailSectionComponent } from 'src/app/components/sections/post/det
   styleUrl: './post-detail.component.scss',
   template: `
     <app-header />
-    <main class="post-container" *ngIf="post">
-      <app-button-back />
-      <app-post-detail-section [post]="post" />
-      <app-comment-section
-        [comments]="comments"
-        [(newComment)]="newComment"
-        (submitComment)="submitComment()"
-      />
-    </main>
+
+    @if (post) {
+      <main class="post-container">
+        <app-button-back />
+        <app-post-detail-section [post]="post" />
+        <app-comment-section
+          [comments]="comments"
+          [(newComment)]="newComment"
+          (submitComment)="submitComment()"
+        />
+      </main>
+    }
   `,
 })
 export class PostDetailComponent implements OnInit {
@@ -69,7 +72,7 @@ export class PostDetailComponent implements OnInit {
       next: comments => {
         this.comments = comments;
       },
-      error: err => console.error('Erreur lors du chargement du post ou des commentaires', err)
+      error: () => this.toastService.error("Erreur lors du chargement du post ou des commentaires.")
     });
 
     const session = this.sessionService.sessionInformation;
@@ -80,13 +83,13 @@ export class PostDetailComponent implements OnInit {
             this.userId = currentUser.id;
             this.authorUsername = currentUser.userName;
           } else {
-            console.warn('Utilisateur non connecté');
+            this.toastService.error("Utilisateur non connecté.")
           }
         },
-        error: err => console.error('Erreur lors de la récupération de l’utilisateur', err)
+        error: () => this.toastService.error("Erreur lors de la récupération de l'utilisateur.")
       });
     } else {
-      console.warn('Aucune session trouvée');
+      this.toastService.error('Aucune session trouvée.')
     }
   }
 
@@ -105,7 +108,7 @@ export class PostDetailComponent implements OnInit {
         this.newComment = '';
         this.toastService.success('Commentaire ajouté avec succès.');
       },
-      error: err => this.toastService.error('Erreur lors de la création du commentaire.')
+      error: () => this.toastService.error('Erreur lors de la création du commentaire.')
     });
   }
 

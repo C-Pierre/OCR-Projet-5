@@ -11,16 +11,16 @@ import { ButtonComponent } from 'src/app/components/elements/shared/button/butto
   template: `
     <div class="center">
       <img src="/assets/images/logo_p6.png" alt="logo" />
-      <div class="buttons">
-        <app-button
-          *ngIf="isLogged"
-          title="Accéder"
-          type="a"
-          [routerLink]="'/themes'"
-          btnClass="primary">
-        </app-button>
 
-        <ng-container *ngIf="!isLogged">
+      <div class="buttons">
+        @if (isLogged) {
+          <app-button
+            title="Accéder"
+            type="a"
+            [routerLink]="'/themes'"
+            btnClass="primary">
+          </app-button>
+        } @else {
           <app-button
             title="Se connecter"
             type="a"
@@ -34,7 +34,8 @@ import { ButtonComponent } from 'src/app/components/elements/shared/button/butto
             [routerLink]="'/signin'"
             btnClass="secondary">
           </app-button>
-        </ng-container>
+        }
+      </div>
     </div>
   `,
 })
