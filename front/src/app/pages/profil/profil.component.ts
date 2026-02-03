@@ -7,7 +7,6 @@ import { ToastService } from 'src/app/core/services/toast/toast.service';
 import { UserService } from 'src/app/core/api/services/user/user.service';
 import { SessionService } from 'src/app/core/api/services/auth/session.service';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
-import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
 import { ProfilFormComponent } from 'src/app/components/parts/profil/form/profil-form.component';
 import { SubscriptionService } from 'src/app/core/api/services/subscription/subscription.service';
 import { ConfirmModalComponent } from 'src/app/components/parts/shared/modal/confirm-modal.component';
@@ -19,7 +18,6 @@ import { SubscriptionsComponent } from 'src/app/components/sections/profil/subsc
   standalone: true,
   imports: [
     CommonModule,
-    ButtonComponent,
     HeaderComponent,
     ProfilFormComponent,
     SubscriptionsComponent,

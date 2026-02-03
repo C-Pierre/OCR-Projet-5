@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { combineLatest, Observable, of } from 'rxjs';
-import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { Component, inject, OnInit } from '@angular/core';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Subject } from 'src/app/core/models/subject/subject.interface';
 import { ToastService } from 'src/app/core/services/toast/toast.service';
@@ -38,20 +38,23 @@ export class SubjectsComponent implements OnInit {
       startWith(this.sessionService.hasSession())
     );
 
-    this.themes$ = combineLatest([
-      isLogged$,
-      this.userSubscriptionService.subscriptions$.pipe(startWith([]))
-    ]).pipe(
-      switchMap(([isLogged, subscriptions]) => {
-        return this.subjectService.all().pipe(
-          map(subjects =>
+    this.themes$ = isLogged$.pipe(
+      switchMap(isLogged => {
+        const userId = this.sessionService.sessionInformation?.id?.toString();
+
+        const subjects$ = isLogged && userId
+          ? this.subjectService.allForUser(userId)
+          : this.subjectService.all();
+
+        return combineLatest([subjects$, this.userSubscriptionService.subscriptions$]).pipe(
+          map(([subjects, subscriptions]) =>
             subjects.map(subject => ({
               ...subject,
-              subscribed: subscriptions.some(sub => sub.id === subject.id)
+              subscribed: !!subscriptions.find(sub => sub.id === subject.id) || !!(subject as Subject).subscribed
             }))
           ),
           catchError(() => {
-            this.toastService.error("Erreur lors du chargement des thèmes.")
+            this.toastService.error("Erreur lors du chargement des thèmes.");
             return of([]);
           })
         );
@@ -65,7 +68,6 @@ export class SubjectsComponent implements OnInit {
       alert('Vous devez être connecté pour vous abonner.');
       return;
     }
-
     this.userSubscriptionService.openSubscribeModal(subjectId);
   }
 

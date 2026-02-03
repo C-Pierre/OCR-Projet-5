@@ -60,7 +60,7 @@ export class PostDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const postId = this.route.snapshot.paramMap.get('id');
+    const postId = this.route?.snapshot?.paramMap.get('id');
     if (!postId) return;
 
     this.postService.getOneById(postId).pipe(
