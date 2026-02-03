@@ -1,4 +1,4 @@
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
@@ -66,18 +66,18 @@ export class PostCreateComponent implements OnInit {
   private currentUserId?: number;
 
   async ngOnInit() {
-    try {
-      this.subjects = await firstValueFrom(this.subjectService.all());
-    } catch {
-      this.toastService.error("Erreur lors du chargement des sujets.");
-    }
-
     const session = this.sessionService.sessionInformation;
     if (session?.id) {
       try {
         const user: User = await firstValueFrom(this.userService.getById(session.id.toString()));
-        if (user) this.currentUserId = user.id;
-        else this.toastService.error("Utilisateur non trouvé.");
+        if (user) {
+          this.currentUserId = user.id;
+          this.subjects = await firstValueFrom(
+            this.subjectService.allForUser(this.currentUserId.toString()).pipe(
+              map(subjects => subjects.filter(subject => subject.subscribed))
+            )
+          );
+        } else this.toastService.error("Utilisateur non trouvé.");
       } catch {
         this.toastService.error("Erreur lors de la récupération de l'utilisateur.");
       }

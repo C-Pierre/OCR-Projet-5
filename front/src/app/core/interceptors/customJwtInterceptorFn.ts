@@ -1,28 +1,18 @@
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
+import { HttpInterceptorFn } from '@angular/common/http';
 import { SessionService } from 'src/app/core/api/services/auth/session.service';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 
-@Injectable()
-export class CustomJwtInterceptor implements HttpInterceptor {
+export const CustomJwtInterceptorFn: HttpInterceptorFn = (req, next) => {
+  const sessionService = inject(SessionService);
+  const token = sessionService.sessionInformation?.token;
 
-  constructor(private sessionService: SessionService) {}
-
-  intercept(
-    request: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-
-    const token = this.sessionService.sessionInformation?.token;
-
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    }
-
-    return next.handle(request);
+  if (token) {
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
-}
+
+  return next(req);
+};
