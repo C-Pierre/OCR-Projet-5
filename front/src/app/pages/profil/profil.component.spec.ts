@@ -50,7 +50,7 @@ describe('ProfilComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProfilComponent],
       providers: [
-        provideRouter([]), // ✅ FIX CRITIQUE
+        provideRouter([]),
         { provide: ToastService, useValue: toastService },
         { provide: SessionService, useValue: sessionService },
         { provide: UserService, useValue: userService },
@@ -167,4 +167,66 @@ describe('ProfilComponent', () => {
             done();
         }, 100);
     });
+
+  describe('onSaveProfile() erreurs détaillées', () => {
+    const profileData = {};
+
+    it('définit errorMessage si userService.update échoue avec une Error', async () => {
+      sessionService.sessionInformation = { id: 1 };
+      (userService.update as jest.Mock).mockReturnValue(
+          throwError(() => new Error('fail'))
+      );
+
+      await component.onSaveProfile(profileData);
+
+      expect(component.errorMessage).toBe('fail');
+      expect(toastService.error).toHaveBeenCalledWith(
+          'Erreur lors de la mise à jour du profil.'
+      );
+    });
+
+    it('définit errorMessage à partir de error.error.message', async () => {
+        sessionService.sessionInformation = { id: 1 };
+        (userService.update as jest.Mock).mockReturnValue(
+            throwError(() => ({
+                error: { message: 'Email déjà utilisé' }
+            }))
+        );
+
+        await component.onSaveProfile(profileData);
+
+        expect(component.errorMessage).toBe('Email déjà utilisé');
+        expect(toastService.error).toHaveBeenCalledWith(
+            'Erreur lors de la mise à jour du profil.'
+        );
+    });
+
+    it('définit un message générique pour une erreur non objet', async () => {
+        sessionService.sessionInformation = { id: 1 };
+        (userService.update as jest.Mock).mockReturnValue(
+            throwError(() => 'boom')
+        );
+
+        await component.onSaveProfile(profileData);
+
+        expect(component.errorMessage).toBe('Une erreur est survenue');
+        expect(toastService.error).toHaveBeenCalledWith(
+            'Erreur lors de la mise à jour du profil.'
+        );
+    });
+
+    it('définit un message générique pour une erreur vide ou falsy', async () => {
+        sessionService.sessionInformation = { id: 1 };
+        (userService.update as jest.Mock).mockReturnValue(
+            throwError(() => '')
+        );
+
+        await component.onSaveProfile(profileData);
+
+        expect(component.errorMessage).toBe('Une erreur est survenue');
+        expect(toastService.error).toHaveBeenCalledWith(
+            'Erreur lors de la mise à jour du profil.'
+        );
+    });
+  });
 });

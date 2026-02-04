@@ -2,6 +2,7 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 import { AuthService } from 'src/app/core/api/services/auth/auth.service';
 import { SessionInfo } from 'src/app/core/models/auth/sessionInfo.interface';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -24,13 +25,13 @@ import { ButtonBackComponent } from 'src/app/components/elements/shared/button-b
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
-
+  private toastService = inject(ToastService);
   private authService = inject(AuthService);
   private sessionService = inject(SessionService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
-  public onError = false;
+  public errorMessage?: string;
 
   loginForm = this.fb.nonNullable.group({
     identifier: ['', [Validators.required, Validators.maxLength(250)]],
@@ -49,12 +50,16 @@ export class LoginComponent {
       const response: SessionInfo = await firstValueFrom(this.authService.login(loginRequest));
       this.sessionService.logIn(response);
       void this.router.navigate(['/themes']);
-    } catch (error) {
-      this.onError = true;
-    }
-  }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+          this.errorMessage = error.message;
+      } else if (error && typeof error === 'object' && 'error' in error) {
+          this.errorMessage = (error as any).error?.message || 'Une erreur est survenue';
+      } else {
+          this.errorMessage = 'Une erreur est survenue';
+      }
 
-  back() {
-      window.history.back();
+      this.toastService.error("Erreur lors de la connexion.")
+    }
   }
 }

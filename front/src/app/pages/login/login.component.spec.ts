@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthService } from 'src/app/core/api/services/auth/auth.service';
 import { SessionService } from 'src/app/core/api/services/auth/session.service';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -21,6 +22,10 @@ describe('LoginComponent', () => {
     logIn: jest.fn()
   };
 
+  const mockToastService = {
+    error: jest.fn()
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -30,7 +35,8 @@ describe('LoginComponent', () => {
       ],
       providers: [
         { provide: AuthService, useValue: mockAuthService },
-        { provide: SessionService, useValue: mockSessionService }
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: ToastService, useValue: mockToastService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -97,10 +103,10 @@ describe('LoginComponent', () => {
 
     expect(mockSessionService.logIn).toHaveBeenCalledWith(sessionInfo);
     expect(router.navigate).toHaveBeenCalledWith(['/themes']);
-    expect(component.onError).toBe(false);
+    expect(component.errorMessage).toBeUndefined();
   });
 
-  it('submit() met onError à true si le login échoue', async () => {
+  it('submit() définit errorMessage si le login échoue avec une Error', async () => {
     component.loginForm.setValue({
       identifier: 'test@test.com',
       password: 'password123'
@@ -112,18 +118,27 @@ describe('LoginComponent', () => {
 
     await component.submit();
 
-    expect(component.onError).toBe(true);
+    expect(component.errorMessage).toBe('401');
     expect(mockSessionService.logIn).not.toHaveBeenCalled();
     expect(router.navigate).not.toHaveBeenCalled();
+    expect(mockToastService.error).toHaveBeenCalled();
   });
 
+  it('submit() définit un message générique si l’erreur n’est pas une Error', async () => {
+    component.loginForm.setValue({
+      identifier: 'test@test.com',
+      password: 'password123'
+    });
 
-  it('back() appelle window.history.back()', () => {
-    const spy = jest.spyOn(window.history, 'back').mockImplementation();
+    mockAuthService.login.mockReturnValue(
+      throwError(() => ({ error: {} }))
+    );
 
-    component.back();
+    await component.submit();
 
-    expect(spy).toHaveBeenCalled();
+    expect(component.errorMessage).toBe('Une erreur est survenue');
+    expect(mockSessionService.logIn).not.toHaveBeenCalled();
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 
   it('appelle AuthService.login avec les valeurs du formulaire', async () => {
@@ -141,5 +156,22 @@ describe('LoginComponent', () => {
       identifier: 'user@test.com',
       password: 'password123'
     });
+  });
+
+  it('submit() définit un message générique pour une erreur non objet', async () => {
+    component.loginForm.setValue({
+      identifier: 'test@test.com',
+      password: 'password123'
+    });
+
+    mockAuthService.login.mockReturnValue(
+      throwError(() => 'boom')
+    );
+
+    await component.submit();
+
+    expect(component.errorMessage).toBe('Une erreur est survenue');
+    expect(mockSessionService.logIn).not.toHaveBeenCalled();
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 });

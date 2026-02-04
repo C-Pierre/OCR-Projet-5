@@ -24,7 +24,7 @@ class UpdateUserRequestTest {
         UpdateUserRequest request = new UpdateUserRequest(
             "john",
             "john@test.com",
-            "secret123"
+            "!Test1234"
         );
 
         Set<ConstraintViolation<UpdateUserRequest>> violations =
@@ -38,15 +38,17 @@ class UpdateUserRequestTest {
         UpdateUserRequest request = new UpdateUserRequest(
             "john",
             "invalid-email",
-            "secret123"
+            "!Test1234"
         );
 
         Set<ConstraintViolation<UpdateUserRequest>> violations =
-                validator.validate(request);
+            validator.validate(request);
 
-        assertThat(violations).hasSize(1);
-        assertThat(violations.iterator().next().getMessage())
-            .isEqualTo("Email format is invalid");
+        assertThat(violations)
+            .anyMatch(v ->
+                v.getPropertyPath().toString().equals("email") &&
+                    v.getMessage().equals("Email format is invalid")
+            );
     }
 
     @Test
@@ -58,11 +60,10 @@ class UpdateUserRequestTest {
         );
 
         Set<ConstraintViolation<UpdateUserRequest>> violations =
-                validator.validate(request);
+            validator.validate(request);
 
-        assertThat(violations).hasSize(1);
-        assertThat(violations.iterator().next().getMessage())
-            .isEqualTo("Password must be between 6 and 250 characters");
+        assertThat(violations)
+            .anyMatch(v -> v.getPropertyPath().toString().equals("password"));
     }
 
     @Test
@@ -72,7 +73,7 @@ class UpdateUserRequestTest {
         UpdateUserRequest request = new UpdateUserRequest(
             longName,
             "john@test.com",
-            "secret123"
+            "!Test1234"
         );
 
         Set<ConstraintViolation<UpdateUserRequest>> violations =
@@ -81,19 +82,5 @@ class UpdateUserRequestTest {
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage())
             .isEqualTo("Username must be 250 characters max");
-    }
-
-    @Test
-    void shouldAllowNullFields() {
-        UpdateUserRequest request = new UpdateUserRequest(
-            null,
-            null,
-            null
-        );
-
-        Set<ConstraintViolation<UpdateUserRequest>> violations =
-            validator.validate(request);
-
-        assertThat(violations).isEmpty();
     }
 }

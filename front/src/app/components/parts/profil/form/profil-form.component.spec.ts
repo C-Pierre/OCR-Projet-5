@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ProfilFormComponent } from './profil-form.component';
 import { User } from 'src/app/core/models/user/user.interface';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
 
 describe('ProfilFormComponent', () => {
@@ -101,5 +101,33 @@ describe('ProfilFormComponent', () => {
         
         expect(username.valid).toBeTruthy();
         expect(email.valid).toBeTruthy();
+    });
+    
+    it('should set errorMessage when username is too long', () => {
+        const longUsername = 'a'.repeat(251);
+        
+        component.profilForm.setValue({
+            username: longUsername,
+            email: 'valid@example.com',
+            password: ''
+        });
+        
+        component.submit();
+        
+        expect(component.errorMessage)
+        .toContain('Le nom d’utilisateur est trop long.');
+    });
+    
+    it('should set errorMessage when email is required', () => {
+        component.profilForm.setValue({
+            username: 'ValidName',
+            email: '',
+            password: ''
+        });
+        
+        component.submit();
+        
+        expect(component.errorMessage)
+        .toContain('L’email est obligatoire.');
     });
 });

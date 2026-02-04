@@ -38,6 +38,7 @@ interface PostFormValue {
       <app-post-form-section
         [postForm]="postForm"
         [subjects]="subjects"
+        [errorMessage]="errorMessage"
         (submitForm)="submit($event)">
       </app-post-form-section>
     </main>
@@ -51,6 +52,8 @@ export class PostCreateComponent implements OnInit {
   private userService = inject(UserService);
   private sessionService = inject(SessionService);
   private toastService = inject(ToastService);
+
+  public errorMessage?: string;
 
   postForm: FormGroup<{
     title: FormControl<string>;
@@ -106,7 +109,12 @@ export class PostCreateComponent implements OnInit {
       await firstValueFrom(this.postService.create(createPostRequest));
       this.toastService.success('Article créé avec succès.');
       await this.router.navigate(['/feed']);
-    } catch {
+    } catch (error: unknown) {
+      this.errorMessage =
+        (error instanceof Error && error.message) ||
+        (error as any)?.error?.message?.trim() ||
+        'Une erreur est survenue';
+
       this.toastService.error("Erreur lors de la création de l'article.");
     }
   }

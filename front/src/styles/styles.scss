@@ -37,12 +37,16 @@ body {
             padding: 0.5rem;
             border-radius: $radius-sm;
             border: 1px solid $color-grey-fourth;
+
+            &.ng-invalid {
+                border: 1px solid $color-error;
+            }
         }
     }
 
     .error {
         text-align: center;
-        margin-top: 1rem;
+        margin: 1rem auto;
         color: $color-error;
         font-weight: 500;
     }

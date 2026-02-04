@@ -1,8 +1,9 @@
 package com.openclassrooms.mddapi.auth.request;
 
+import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import com.openclassrooms.mddapi.auth.validator.AuthValidPassword;
 
 public record RegisterRequest(
     @NotBlank(message = "Username must not be blank")
@@ -15,6 +16,6 @@ public record RegisterRequest(
     String email,
 
     @NotBlank(message = "Password must not be blank")
-    @Size(min = 6, max = 250, message = "Password must be between 6 and 250 characters")
+    @AuthValidPassword
     String password
 ) {}

@@ -42,10 +42,8 @@
 
     <app-button title="S’inscrire" type="submit" class="primary"></app-button>
 
-    @if (onError) {
-      <div class="error">
-        Une erreur est survenue lors de l’inscription.
-      </div>
+    @if (errorMessage) {
+      <div class="error">{{ errorMessage }}</div>
     }
 
   </form>

@@ -55,7 +55,7 @@ class UserControllerIntegrationTest {
 
     @Test
     void update_shouldReturnUpdatedUser() throws Exception {
-        UpdateUserRequest request = new UpdateUserRequest("johnny", "johnny@test.com", "secret123");
+        UpdateUserRequest request = new UpdateUserRequest("johnny", "johnny@test.com", "Test!1234");
         UserDto updatedDto = new UserDto(1L, "johnny", "johnny@test.com", null, null);
 
         Mockito.when(updateUserService.execute(eq(1L), any(UpdateUserRequest.class)))

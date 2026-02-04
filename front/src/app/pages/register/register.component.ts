@@ -26,7 +26,7 @@ export class RegisterComponent {
     private authService = inject(AuthService);
     private fb = inject(FormBuilder);
     private router = inject(Router);
-    public onError = false;
+    public errorMessage?: string;
 
     registerForm = this.fb.group({
         userName: ['', [Validators.required, Validators.maxLength(250)]],
@@ -50,10 +50,12 @@ export class RegisterComponent {
 
         try {
             await firstValueFrom(this.authService.register(registerRequest));
-            this.onError = false;
             await this.router.navigate(['/login']);
-        } catch (error) {
-            this.onError = true;
+        } catch (error: unknown) {
+            this.errorMessage =
+                (error instanceof Error && error.message) ||
+                (error as any)?.error?.message?.trim() ||
+                'Une erreur est survenue';
         }
     }
 }

@@ -139,4 +139,65 @@ describe('PostCreateComponent', () => {
         
         expect(toastService.error).toHaveBeenCalledWith("Erreur lors de la création de l'article.");
     });
+
+// =======================
+// Tests submit() - erreurs détaillées
+// =======================
+describe('submit() erreurs détaillées', () => {
+    const formValue = { title: 'Test', content: 'Contenu', subjectId: 1 };
+
+    it('définit errorMessage si postService.create échoue avec une Error', async () => {
+        component['currentUserId'] = 123;
+        (postService.create as jest.Mock).mockReturnValue(
+            throwError(() => new Error('fail'))
+        );
+
+        await component.submit(formValue as any);
+
+        expect(component.errorMessage).toBe('fail');
+        expect(router.navigate).not.toHaveBeenCalled();
+        expect(toastService.error).toHaveBeenCalledWith("Erreur lors de la création de l'article.");
+    });
+
+    it('définit errorMessage à partir de error.error.message', async () => {
+        component['currentUserId'] = 123;
+        (postService.create as jest.Mock).mockReturnValue(
+            throwError(() => ({
+                error: { message: 'Titre déjà utilisé' }
+            }))
+        );
+
+        await component.submit(formValue as any);
+
+        expect(component.errorMessage).toBe('Titre déjà utilisé');
+        expect(router.navigate).not.toHaveBeenCalled();
+        expect(toastService.error).toHaveBeenCalledWith("Erreur lors de la création de l'article.");
+    });
+
+    it('définit un message générique pour une erreur non objet', async () => {
+        component['currentUserId'] = 123;
+        (postService.create as jest.Mock).mockReturnValue(
+            throwError(() => 'boom')
+        );
+
+        await component.submit(formValue as any);
+
+        expect(component.errorMessage).toBe('Une erreur est survenue');
+        expect(router.navigate).not.toHaveBeenCalled();
+        expect(toastService.error).toHaveBeenCalledWith("Erreur lors de la création de l'article.");
+    });
+
+    it('définit un message générique pour une erreur vide ou falsy', async () => {
+        component['currentUserId'] = 123;
+        (postService.create as jest.Mock).mockReturnValue(
+            throwError(() => '')
+        );
+
+        await component.submit(formValue as any);
+
+        expect(component.errorMessage).toBe('Une erreur est survenue');
+        expect(router.navigate).not.toHaveBeenCalled();
+        expect(toastService.error).toHaveBeenCalledWith("Erreur lors de la création de l'article.");
+    });
+});
 });

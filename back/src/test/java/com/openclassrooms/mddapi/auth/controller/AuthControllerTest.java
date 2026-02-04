@@ -38,7 +38,7 @@ class AuthControllerTest {
 
     @Test
     void authenticateUser_shouldReturnJwtResponse() throws Exception {
-        LoginRequest request = new LoginRequest("user@mail.com", "password");
+        LoginRequest request = new LoginRequest("user@mail.com", "Test!1234");
 
         JwtResponse jwtResponse = new JwtResponse(
             "fake-jwt-token",
@@ -69,7 +69,7 @@ class AuthControllerTest {
     @Test
     void registerUser_shouldReturnSuccessMessage() throws Exception {
         RegisterRequest request =
-            new RegisterRequest("user", "user@mail.com", "password123");
+            new RegisterRequest("user", "user@mail.com", "Test!1234");
 
         when(authRegisterService.execute(request))
             .thenReturn(new MessageResponse("User registered successfully!"));

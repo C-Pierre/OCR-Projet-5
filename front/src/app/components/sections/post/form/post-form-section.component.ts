@@ -22,7 +22,7 @@ export interface PostFormControls {
   imports: [CommonModule, ReactiveFormsModule, PostFormComponent, ButtonComponent],
   template: `
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-      <app-post-form [postForm]="postForm" [subjects]="subjects"></app-post-form>
+      <app-post-form [postForm]="postForm" [subjects]="subjects" [errorMessage]="errorMessage"></app-post-form>
       <app-button title="Créer le post" type="submit" class="primary"></app-button>
     </form>
   `,
@@ -32,10 +32,10 @@ export class PostFormSectionComponent {
   @Input() postForm!: FormGroup<PostFormControls>;
   @Input() subjects: { id: number; name: string }[] = [];
   @Output() submitForm = new EventEmitter<PostFormValue>();
+  @Input() errorMessage?: string;
 
   onSubmit() {
     if (this.postForm.valid) {
-      // extraire les valeurs typées
       const value: PostFormValue = {
         title: this.postForm.controls.title.value,
         content: this.postForm.controls.content.value,

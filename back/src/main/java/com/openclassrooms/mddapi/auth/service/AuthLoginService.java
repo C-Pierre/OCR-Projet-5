@@ -5,11 +5,11 @@ import com.openclassrooms.mddapi.user.entity.User;
 import com.openclassrooms.mddapi.auth.jwt.JwtUtils;
 import org.springframework.security.core.Authentication;
 import com.openclassrooms.mddapi.auth.request.LoginRequest;
-import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import com.openclassrooms.mddapi.auth.jwt.response.JwtResponse;
-import com.openclassrooms.mddapi.common.exception.type.BadRequestException;
+import com.openclassrooms.mddapi.user.repository.port.UserDataPort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
+import com.openclassrooms.mddapi.common.exception.type.BadRequestException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Service
@@ -20,9 +20,9 @@ public class AuthLoginService {
     private final JwtUtils jwtUtils;
 
     public AuthLoginService(
-            AuthenticationManager authenticationManager,
-            UserDataPort userDataPort,
-            JwtUtils jwtUtils
+        AuthenticationManager authenticationManager,
+        UserDataPort userDataPort,
+        JwtUtils jwtUtils
     ) {
         this.authenticationManager = authenticationManager;
         this.userDataPort = userDataPort;
@@ -31,7 +31,7 @@ public class AuthLoginService {
 
     public JwtResponse execute(LoginRequest loginRequest) {
         String identifier = loginRequest.identifier();
-        User user = null;
+        User user;
 
         if (identifier.contains("@")) {
             user = userDataPort.getByEmail(identifier);
