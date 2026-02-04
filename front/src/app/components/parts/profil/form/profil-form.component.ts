@@ -13,6 +13,7 @@ import { ButtonComponent } from 'src/app/components/elements/shared/button/butto
 export class ProfilFormComponent implements OnChanges {
   @Input() user!: User | null;
   @Output() save = new EventEmitter<Partial<User>>();
+  @Input() errorMessage?: string;
 
   public profilForm: FormGroup;
 
@@ -36,6 +37,7 @@ export class ProfilFormComponent implements OnChanges {
 
   public submit(): void {
     if (this.profilForm.invalid) {
+      this.errorMessage = this.buildErrorMessage();
       this.profilForm.markAllAsTouched();
       return;
     }
@@ -54,4 +56,31 @@ export class ProfilFormComponent implements OnChanges {
 
     this.save.emit(payload);
   }
+
+  private buildErrorMessage(): string {
+    const errors: string[] = [];
+
+    const usernameCtrl = this.profilForm.get('username');
+    if (usernameCtrl?.errors) {
+      if (usernameCtrl.errors['required']) {
+        errors.push('Le nom d’utilisateur est obligatoire.');
+      }
+      if (usernameCtrl.errors['maxlength']) {
+        errors.push('Le nom d’utilisateur est trop long.');
+      }
+    }
+
+    const emailCtrl = this.profilForm.get('email');
+    if (emailCtrl?.errors) {
+      if (emailCtrl.errors['required']) {
+        errors.push('L’email est obligatoire.');
+      }
+      if (emailCtrl.errors['email']) {
+        errors.push('Le format de l’email est invalide.');
+      }
+    }
+
+    return errors.join(' ');
+  }
+
 }

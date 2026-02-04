@@ -31,11 +31,8 @@
 
     <app-button title="Se connecter" type="submit" class="primary"></app-button>
 
-    @if (onError) {
-      <div class="error">
-        Identifiants incorrects
-      </div>
+    @if (errorMessage) {
+      <div class="error">{{ errorMessage }}</div>
     }
-
   </form>
 </div>

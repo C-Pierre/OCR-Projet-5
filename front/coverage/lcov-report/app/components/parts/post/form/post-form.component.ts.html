@@ -109,20 +109,7 @@
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,23 +151,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -195,51 +169,38 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
             &lt;h2&gt;Créer un nouvel article&lt;/h2&gt;
 &nbsp;
             &lt;div class="form-group"&gt;
-            &lt;label for="subjectId"&gt;Sujet&lt;/label&gt;
-            &lt;select id="subjectId" formControlName="subjectId"&gt;
-                &lt;option value="" disabled selected&gt;Choisir un sujet&lt;/option&gt;
+                &lt;label for="subjectId"&gt;Sujet&lt;/label&gt;
+                &lt;select id="subjectId" formControlName="subjectId"&gt;
+                    &lt;option value="" disabled selected&gt;Choisir un sujet&lt;/option&gt;
 &nbsp;
-                @for (subject of subjects; track subject.id) {
-                &lt;option [value]="subject.id"&gt;
-                    {{ subject.name }}
-                &lt;/option&gt;
-                }
-            &lt;/select&gt;
-&nbsp;
-            @if (postForm.get('subjectId')?.invalid &amp;&amp; postForm.get('subjectId')?.touched) {
-                &lt;div class="error"&gt;
-                Sujet requis
-                &lt;/div&gt;
-            }
+                    @for (subject of subjects; track subject.id) {
+                    &lt;option [value]="subject.id"&gt;
+                        {{ subject.name }}
+                    &lt;/option&gt;
+                    }
+                &lt;/select&gt;
             &lt;/div&gt;
 &nbsp;
             &lt;div class="form-group"&gt;
-            &lt;label for="title"&gt;Titre&lt;/label&gt;
-            &lt;input id="title" type="text" formControlName="title"&gt;
-&nbsp;
-            @if (postForm.get('title')?.invalid &amp;&amp; postForm.get('title')?.touched) {
-                &lt;div class="error"&gt;
-                Titre requis (max 200 caractères)
-                &lt;/div&gt;
-            }
+                &lt;label for="title"&gt;Titre&lt;/label&gt;
+                &lt;input id="title" type="text" formControlName="title"&gt;
             &lt;/div&gt;
 &nbsp;
             &lt;div class="form-group"&gt;
             &lt;label for="content"&gt;Contenu&lt;/label&gt;
-            &lt;textarea id="content" formControlName="content" rows="6"&gt;&lt;/textarea&gt;
-&nbsp;
-            @if (postForm.get('content')?.invalid &amp;&amp; postForm.get('content')?.touched) {
-                &lt;div class="error"&gt;
-                Contenu requis (max 5000 caractères)
-                &lt;/div&gt;
-            }
+                &lt;textarea id="content" formControlName="content" rows="6"&gt;&lt;/textarea&gt;
             &lt;/div&gt;
+&nbsp;
+            @if (errorMessage) {
+             &lt;div class="error"&gt;{{ errorMessage }}&lt;/div&gt;
+            }
         &lt;/div&gt;
     `,
 })
 export class PostFormComponent {
   @Input() postForm!: FormGroup;
   @Input() subjects: { id: number; name: string }[] = [];
+  @Input() errorMessage?: string;
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -247,7 +208,7 @@ export class PostFormComponent {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-04T15:26:34.798Z
+                at 2026-02-05T12:52:41.633Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

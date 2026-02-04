@@ -39,6 +39,8 @@ export class ProfilComponent implements OnInit {
   subscriptions$ = this.userSubscriptionService.subscriptions$;
   showUnsubscribeModal$ = this.userSubscriptionService.showUnsubscribeModal$;
 
+  public errorMessage?: string;
+
   ngOnInit(): void {
     this.sessionService.isLogged$
       .pipe(
@@ -75,7 +77,12 @@ export class ProfilComponent implements OnInit {
 
       this.userSubject.next(user);
       this.toastService.success("Profil mis à jour.")
-    } catch (err) {
+    } catch (error: unknown) {
+      this.errorMessage =
+        (error instanceof Error && error.message) ||
+        (error as any)?.error?.message?.trim() ||
+        'Une erreur est survenue';
+
       this.toastService.error("Erreur lors de la mise à jour du profil.")
     }
   }

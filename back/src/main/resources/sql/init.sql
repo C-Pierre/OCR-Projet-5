@@ -8,8 +8,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT IGNORE INTO mdd.users (user_name, email, password)
 VALUES
-    ('UserOne', 'user.one@mail.com', '$2a$10$.Hsa/ZjUVaHqi0tp9xieMeewrnZxrZ5pQRzddUXE/WjDu2ZThe6Iq'),
-    ('UserTwo', 'user.two@mail.com', '$2a$10$.Hsa/ZjUVaHqi0tp9xieMeewrnZxrZ5pQRzddUXE/WjDu2ZThe6Iq');
+    ('UserOne', 'user.one@mail.com', '$2a$12$L0ckABtnJfZncWkbAPP2G.dSEvZ2.AduLO8aq2VfJ7nFrSOklLRi6'),
+    ('UserTwo', 'user.two@mail.com', '$2a$12$L0ckABtnJfZncWkbAPP2G.dSEvZ2.AduLO8aq2VfJ7nFrSOklLRi6');
 
 INSERT INTO mdd.subjects (name, description)
 VALUES

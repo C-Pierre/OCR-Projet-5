@@ -44,24 +44,22 @@ describe('PostFormComponent', () => {
     expect(options[2].nativeElement.textContent.trim()).toBe('Science');
   });
 
-  it('should show validation error when title is invalid and touched', () => {
+  it('should mark title control as invalid when empty and touched', () => {
     const titleControl = form.get('title')!;
     titleControl.markAsTouched();
     fixture.detectChanges();
 
-    const errorEl = fixture.debugElement.query(By.css('.form-group .error'));
-    expect(errorEl).toBeTruthy();
-    expect(errorEl.nativeElement.textContent).toContain('Titre requis');
+    expect(titleControl.invalid).toBe(true);
+    expect(titleControl.errors).toEqual({ required: true });
   });
 
-  it('should show validation error when content is invalid and touched', () => {
+  it('should mark content control as invalid when empty and touched', () => {
     const contentControl = form.get('content')!;
     contentControl.markAsTouched();
     fixture.detectChanges();
 
-    const errorEl = fixture.debugElement.query(By.css('.form-group .error'));
-    expect(errorEl).toBeTruthy();
-    expect(errorEl.nativeElement.textContent).toContain('Contenu requis');
+    expect(contentControl.invalid).toBe(true);
+    expect(contentControl.errors).toEqual({ required: true });
   });
 
   it('should bind form controls to input values', () => {

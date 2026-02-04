@@ -14,5 +14,9 @@
     <input id="password" type="password" formControlName="password">
   </div>
 
+  @if (errorMessage) {
+    <div class="error">{{ errorMessage }}</div>
+  }
+
   <app-button title="Sauvegarder" type="submit" class="primary"></app-button>
 </form>

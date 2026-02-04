@@ -13,8 +13,8 @@ import com.openclassrooms.mddapi.user.service.GetUserService;
 import com.openclassrooms.mddapi.user.request.UpdateUserRequest;
 import com.openclassrooms.mddapi.user.service.UpdateUserService;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 class UserControllerTest {
 
@@ -22,7 +22,6 @@ class UserControllerTest {
     private GetUserService getUserService;
     private UpdateUserService updateUserService;
     private ObjectMapper objectMapper;
-    private UserController userController;
     private UserDto userDto;
 
     @BeforeEach
@@ -31,7 +30,7 @@ class UserControllerTest {
         updateUserService = Mockito.mock(UpdateUserService.class);
         objectMapper = new ObjectMapper();
 
-        userController = new UserController(getUserService, updateUserService);
+        UserController userController = new UserController(getUserService, updateUserService);
 
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
@@ -52,8 +51,12 @@ class UserControllerTest {
 
     @Test
     void update_shouldReturnUpdatedUser() throws Exception {
-        UpdateUserRequest request = new UpdateUserRequest("johnny", "johnny@test.com", "secret123");
-        UserDto updatedDto = new UserDto(1L, "johnny", "johnny@test.com", null, null);
+        UpdateUserRequest request = new UpdateUserRequest(
+            "johnny", "johnny@test.com", "Test!1234"
+        );
+        UserDto updatedDto = new UserDto(
+            1L, "johnny", "johnny@test.com", null, null
+        );
 
         Mockito.when(updateUserService.execute(eq(1L), any(UpdateUserRequest.class)))
             .thenReturn(updatedDto);
