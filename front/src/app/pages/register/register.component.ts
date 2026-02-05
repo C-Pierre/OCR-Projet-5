@@ -3,9 +3,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { AuthService } from 'src/app/core/api/services/auth/auth.service';
+import { SessionInfo } from 'src/app/core/models/auth/sessionInfo.interface';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { RegisterRequest } from 'src/app/core/models/auth/request/registerRequest.interface';
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
+import { LoginRequest } from 'src/app/core/models/auth/request/loginRequest.interface';
 import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
+import { RegisterRequest } from 'src/app/core/models/auth/request/registerRequest.interface';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
 import { ButtonBackComponent } from 'src/app/components/elements/shared/button-back/button-back.component';
 
@@ -23,6 +26,7 @@ import { ButtonBackComponent } from 'src/app/components/elements/shared/button-b
 })
 export class RegisterComponent {
 
+    private sessionService = inject(SessionService);
     private authService = inject(AuthService);
     private fb = inject(FormBuilder);
     private router = inject(Router);
@@ -50,7 +54,17 @@ export class RegisterComponent {
 
         try {
             await firstValueFrom(this.authService.register(registerRequest));
-            await this.router.navigate(['/login']);
+
+            const loginRequest: LoginRequest = {
+                identifier: email ?? '',
+                password: password ?? ''
+            };
+
+            const response: SessionInfo = await firstValueFrom(this.authService.login(loginRequest));
+            this.sessionService.logIn(response);
+
+            await this.router.navigate(['/themes']);
+
         } catch (error: unknown) {
             this.errorMessage =
                 (error instanceof Error && error.message) ||

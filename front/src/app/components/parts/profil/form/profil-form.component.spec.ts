@@ -22,6 +22,10 @@ describe('ProfilFormComponent', () => {
         
         fixture = TestBed.createComponent(ProfilFormComponent);
         component = fixture.componentInstance;
+        component.user = mockUser;
+        component.ngOnChanges({
+            user: { currentValue: mockUser, previousValue: null, firstChange: true, isFirstChange: () => true }
+        });
         fixture.detectChanges();
     });
     
@@ -30,104 +34,102 @@ describe('ProfilFormComponent', () => {
     });
     
     it('should patch form values when user input changes', () => {
-        component.user = mockUser;
-        component.ngOnChanges({ user: { currentValue: mockUser, previousValue: null, firstChange: true, isFirstChange: () => true } });
-        fixture.detectChanges();
-        
         expect(component.profilForm.get('username')?.value).toBe('JohnDoe');
         expect(component.profilForm.get('email')?.value).toBe('john@example.com');
         expect(component.profilForm.get('password')?.value).toBe('');
     });
     
-    it('should not emit save if form is invalid', () => {
+    it('should emit save when only username is changed', () => {
         const emitSpy = jest.spyOn(component.save, 'emit');
-        
-        component.profilForm.get('username')?.setValue('');
-        component.profilForm.get('email')?.setValue('invalid-email');
+
+        component.profilForm.get('username')?.setValue('JaneDoe');
         component.submit();
-        
-        expect(emitSpy).not.toHaveBeenCalled();
-    });
-    
-    it('should emit save with password if provided', () => {
-        const emitSpy = jest.spyOn(component.save, 'emit');
-        
-        component.profilForm.setValue({
-            username: 'JaneDoe',
-            email: 'jane@example.com',
-            password: 'secret123'
-        });
-        
-        component.submit();
-        
+
         expect(emitSpy).toHaveBeenCalledWith({
-            userName: 'JaneDoe',
-            email: 'jane@example.com',
-            password: 'secret123'
+            userName: 'JaneDoe'
         });
     });
-    
-    it('should emit save without password if empty', () => {
+
+    it('should emit save when only email is changed', () => {
         const emitSpy = jest.spyOn(component.save, 'emit');
-        
-        component.profilForm.setValue({
-            username: 'JaneDoe',
-            email: 'jane@example.com',
-            password: ''
-        });
-        
+
+        component.profilForm.get('email')?.setValue('jane@example.com');
         component.submit();
-        
+
         expect(emitSpy).toHaveBeenCalledWith({
-            userName: 'JaneDoe',
             email: 'jane@example.com'
         });
     });
-    
-    it('should validate required and email fields', () => {
-        const username = component.profilForm.get('username')!;
-        const email = component.profilForm.get('email')!;
-        
-        username.setValue('');
-        email.setValue('invalid-email');
-        fixture.detectChanges();
-        
-        expect(username.valid).toBeFalsy();
-        expect(email.valid).toBeFalsy();
-        
-        username.setValue('ValidName');
-        email.setValue('valid@example.com');
-        fixture.detectChanges();
-        
-        expect(username.valid).toBeTruthy();
-        expect(email.valid).toBeTruthy();
+
+    it('should emit save when only password is filled', () => {
+        const emitSpy = jest.spyOn(component.save, 'emit');
+
+        component.profilForm.get('password')?.setValue('Test!1234');
+        component.submit();
+
+        expect(emitSpy).toHaveBeenCalledWith({
+            password: 'Test!1234'
+        });
     });
-    
+
+    it('should not emit save if no values are changed', () => {
+        const emitSpy = jest.spyOn(component.save, 'emit');
+
+        component.profilForm.get('username')?.setValue('JohnDoe');
+        component.profilForm.get('email')?.setValue('john@example.com');
+        component.profilForm.get('password')?.setValue('');
+        component.submit();
+
+        expect(emitSpy).not.toHaveBeenCalled();
+        expect(component.errorMessage).toBe('Aucune modification à enregistrer.');
+    });
+
+    it('should emit save with multiple changes', () => {
+        const emitSpy = jest.spyOn(component.save, 'emit');
+
+        component.profilForm.setValue({
+            username: 'JaneDoe',
+            email: 'jane@example.com',
+            password: 'secret123'
+        });
+
+        component.submit();
+
+        expect(emitSpy).toHaveBeenCalledWith({
+            userName: 'JaneDoe',
+            email: 'jane@example.com',
+            password: 'secret123'
+        });
+    });
+
     it('should set errorMessage when username is too long', () => {
         const longUsername = 'a'.repeat(251);
-        
+
         component.profilForm.setValue({
             username: longUsername,
-            email: 'valid@example.com',
-            password: ''
-        });
-        
-        component.submit();
-        
-        expect(component.errorMessage)
-        .toContain('Le nom d’utilisateur est trop long.');
-    });
-    
-    it('should set errorMessage when email is required', () => {
-        component.profilForm.setValue({
-            username: 'ValidName',
             email: '',
             password: ''
         });
-        
+
         component.submit();
-        
+
         expect(component.errorMessage)
-        .toContain('L’email est obligatoire.');
+            .toContain('Le nom d’utilisateur est trop long.');
+    });
+
+    it('should not emit save if email format is invalid', () => {
+        const emitSpy = jest.spyOn(component.save, 'emit');
+
+        component.profilForm.setValue({
+            username: '',
+            email: 'invalid-email',
+            password: ''
+        });
+
+        component.submit();
+
+        expect(emitSpy).not.toHaveBeenCalled();
+        expect(component.errorMessage)
+            .toContain('Le format de l’email est invalide.');
     });
 });
