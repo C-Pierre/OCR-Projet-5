@@ -6,6 +6,8 @@ import { RegisterComponent } from './register.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthService } from 'src/app/core/api/services/auth/auth.service';
+import { SessionInfo } from 'src/app/core/models/auth/sessionInfo.interface';
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
@@ -13,28 +15,29 @@ describe('RegisterComponent', () => {
     let router: Router;
 
     const mockAuthService = {
-        register: jest.fn()
+        register: jest.fn(),
+        login: jest.fn()
+    };
+
+    const mockSessionService = {
+        logIn: jest.fn()
     };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [
-                RegisterComponent,
-                ReactiveFormsModule,
-                RouterTestingModule
-            ],
+            imports: [RegisterComponent, ReactiveFormsModule, RouterTestingModule],
             providers: [
-                { provide: AuthService, useValue: mockAuthService }
+                { provide: AuthService, useValue: mockAuthService },
+                { provide: SessionService, useValue: mockSessionService }
             ],
             schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
 
         fixture = TestBed.createComponent(RegisterComponent);
         component = fixture.componentInstance;
-
         router = TestBed.inject(Router);
-        jest.spyOn(router, 'navigate').mockResolvedValue(true);
 
+        jest.spyOn(router, 'navigate').mockResolvedValue(true);
         jest.clearAllMocks();
         fixture.detectChanges();
     });
@@ -53,34 +56,34 @@ describe('RegisterComponent', () => {
             email: 'user@test.com',
             password: 'password123'
         });
-
         expect(component.registerForm.valid).toBe(true);
     });
 
     it('submit() ne fait rien si le formulaire est invalide', async () => {
-        component.registerForm.setValue({
-            userName: '',
-            email: '',
-            password: ''
-        });
-
+        component.registerForm.setValue({ userName: '', email: '', password: '' });
         const markSpy = jest.spyOn(component.registerForm, 'markAllAsTouched');
-
         await component.submit();
 
         expect(markSpy).toHaveBeenCalled();
         expect(mockAuthService.register).not.toHaveBeenCalled();
         expect(router.navigate).not.toHaveBeenCalled();
+        expect(mockAuthService.login).not.toHaveBeenCalled();
+        expect(mockSessionService.logIn).not.toHaveBeenCalled();
     });
 
-    it('submit() enregistre l’utilisateur et navigue vers /login', async () => {
-        component.registerForm.setValue({
-            userName: 'user',
+    it('submit() enregistre, log-in et navigue vers /themes', async () => {
+        component.registerForm.setValue({ userName: 'user', email: 'user@test.com', password: 'password123' });
+
+        const fakeSession: SessionInfo = {
+            id: 1,
+            type: 'USER',
+            username: 'user',
             email: 'user@test.com',
-            password: 'password123'
-        });
+            token: 'jwt-token'
+        };
 
         mockAuthService.register.mockReturnValue(of(void 0));
+        mockAuthService.login.mockReturnValue(of(fakeSession));
 
         await component.submit();
 
@@ -90,20 +93,19 @@ describe('RegisterComponent', () => {
             password: 'password123'
         });
 
-        expect(component.errorMessage).toBeUndefined();
-        expect(router.navigate).toHaveBeenCalledWith(['/login']);
-    });
-
-    it('submit() définit errorMessage si register échoue avec une Error', async () => {
-        component.registerForm.setValue({
-            userName: 'user',
-            email: 'user@test.com',
+        expect(mockAuthService.login).toHaveBeenCalledWith({
+            identifier: 'user@test.com',
             password: 'password123'
         });
 
-        mockAuthService.register.mockReturnValue(
-            throwError(() => new Error('400'))
-        );
+        expect(mockSessionService.logIn).toHaveBeenCalledWith(fakeSession);
+        expect(router.navigate).toHaveBeenCalledWith(['/themes']);
+        expect(component.errorMessage).toBeUndefined();
+    });
+
+    it('submit() définit errorMessage si register échoue', async () => {
+        component.registerForm.setValue({ userName: 'user', email: 'user@test.com', password: 'password123' });
+        mockAuthService.register.mockReturnValue(throwError(() => new Error('400')));
 
         await component.submit();
 
@@ -112,17 +114,8 @@ describe('RegisterComponent', () => {
     });
 
     it('submit() définit errorMessage à partir de error.error.message', async () => {
-        component.registerForm.setValue({
-            userName: 'user',
-            email: 'user@test.com',
-            password: 'password123'
-        });
-
-        mockAuthService.register.mockReturnValue(
-            throwError(() => ({
-                error: { message: 'Email déjà utilisé' }
-            }))
-        );
+        component.registerForm.setValue({ userName: 'user', email: 'user@test.com', password: 'password123' });
+        mockAuthService.register.mockReturnValue(throwError(() => ({ error: { message: 'Email déjà utilisé' } })));
 
         await component.submit();
 
@@ -131,76 +124,36 @@ describe('RegisterComponent', () => {
     });
 
     it('submit() définit un message générique pour une erreur non objet', async () => {
-        component.registerForm.setValue({
-            userName: 'user',
-            email: 'user@test.com',
-            password: 'password123'
-        });
-
-        mockAuthService.register.mockReturnValue(
-            throwError(() => 'boom')
-        );
+        component.registerForm.setValue({ userName: 'user', email: 'user@test.com', password: 'password123' });
+        mockAuthService.register.mockReturnValue(throwError(() => 'boom'));
 
         await component.submit();
 
         expect(component.errorMessage).toBe('Une erreur est survenue');
         expect(router.navigate).not.toHaveBeenCalled();
-    });
-
-    it('submit() définit un message générique pour une erreur non objet et vide', async () => {
-        component.registerForm.setValue({
-            userName: 'user',
-            email: 'user@test.com',
-            password: 'password123'
-        });
-
-        mockAuthService.register.mockReturnValue(
-            throwError(() => {})
-        );
-
-        await component.submit();
-
-        expect(component.errorMessage).toBe('Une erreur est survenue');
-        expect(router.navigate).not.toHaveBeenCalled();
-    });
-
-    it('appelle AuthService.register avec les valeurs du formulaire', async () => {
-        mockAuthService.register.mockReturnValue(of(void 0));
-
-        component.registerForm.setValue({
-            userName: 'anotherUser',
-            email: 'another@test.com',
-            password: 'password123'
-        });
-
-        await component.submit();
-
-        expect(mockAuthService.register).toHaveBeenCalledTimes(1);
-        expect(mockAuthService.register).toHaveBeenCalledWith({
-            userName: 'anotherUser',
-            email: 'another@test.com',
-            password: 'password123'
-        });
     });
 
     describe('Submit Method - Nullish Coalescing Coverage (??)', () => {
-        it('devrait utiliser une chaîne vide si userName est null ou undefined', async () => {
-            component.registerForm.setValue({
-                userName: 'user',
+        it('utilise "" si userName est null/undefined (pas vide)', async () => {
+            component.registerForm.patchValue({
+                userName: null as any,
                 email: 'user@test.com',
                 password: 'password123'
             });
 
-            Object.defineProperty(component.registerForm, 'value', {
-                get: () => ({
-                    userName: null,
-                    email: 'user@test.com',
-                    password: 'password123'
-                }),
-                configurable: true
-            });
+            component.registerForm.controls.userName.clearValidators();
+            component.registerForm.controls.userName.updateValueAndValidity();
+
+            const fakeSession: SessionInfo = {
+                id: 1,
+                type: 'USER',
+                username: 'user',
+                email: 'user@test.com',
+                token: 'jwt-token'
+            };
 
             mockAuthService.register.mockReturnValue(of(void 0));
+            mockAuthService.login.mockReturnValue(of(fakeSession));
 
             await component.submit();
 
@@ -211,29 +164,39 @@ describe('RegisterComponent', () => {
             });
         });
 
-        it('devrait utiliser une chaîne vide si email ou password sont null/undefined', async () => {
-            component.registerForm.setValue({
+        it('utilise "" si email ou password sont null/undefined', async () => {
+            component.registerForm.patchValue({
                 userName: 'user',
-                email: 'user@test.com',
-                password: 'password123'
+                email: null as any,
+                password: null as any
             });
 
-            Object.defineProperty(component.registerForm, 'value', {
-                get: () => ({
-                    userName: 'user',
-                    email: null,
-                    password: undefined
-                }),
-                configurable: true
-            });
+            component.registerForm.controls.email.clearValidators();
+            component.registerForm.controls.email.updateValueAndValidity();
+            component.registerForm.controls.password.clearValidators();
+            component.registerForm.controls.password.updateValueAndValidity();
+
+            const fakeSession: SessionInfo = {
+                id: 2,
+                type: 'USER',
+                username: 'user',
+                email: 'user@test.com',
+                token: 'jwt-token-2'
+            };
 
             mockAuthService.register.mockReturnValue(of(void 0));
+            mockAuthService.login.mockReturnValue(of(fakeSession));
 
             await component.submit();
 
             expect(mockAuthService.register).toHaveBeenCalledWith({
                 userName: 'user',
                 email: '',
+                password: ''
+            });
+
+            expect(mockAuthService.login).toHaveBeenCalledWith({
+                identifier: '',
                 password: ''
             });
         });

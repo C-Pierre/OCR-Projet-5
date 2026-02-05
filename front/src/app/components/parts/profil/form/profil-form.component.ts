@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { User } from 'src/app/core/models/user/user.interface';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
+import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-profil-form',
@@ -19,8 +19,8 @@ export class ProfilFormComponent implements OnChanges {
 
   constructor(private fb: FormBuilder) {
     this.profilForm = this.fb.group({
-      username: ['', [Validators.required, Validators.maxLength(250)]],
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.maxLength(250)]],
+      email: ['', [Validators.email]],
       password: ['']
     });
   }
@@ -36,51 +36,50 @@ export class ProfilFormComponent implements OnChanges {
   }
 
   public submit(): void {
+    this.errorMessage = undefined;
+
     if (this.profilForm.invalid) {
       this.errorMessage = this.buildErrorMessage();
       this.profilForm.markAllAsTouched();
       return;
     }
 
-    const formValue = { ...this.profilForm.value };
+    const { username, email, password } = this.profilForm.value;
+    const payload: Partial<User> = {};
 
-    if (!formValue.password) {
-      delete formValue.password;
+    if (username && username !== this.user?.userName) {
+      payload.userName = username;
     }
 
-    const payload: Partial<User> = {
-      userName: formValue.username,
-      email: formValue.email,
-      ...(formValue.password ? { password: formValue.password } : {})
-    };
+    if (email && email !== this.user?.email) {
+      payload.email = email;
+    }
+
+    if (password) {
+      payload.password = password;
+    }
+
+    if (Object.keys(payload).length === 0) {
+      this.errorMessage = 'Aucune modification à enregistrer.';
+      return;
+    }
 
     this.save.emit(payload);
-  }
+}
 
   private buildErrorMessage(): string {
     const errors: string[] = [];
 
     const usernameCtrl = this.profilForm.get('username');
-    if (usernameCtrl?.errors) {
-      if (usernameCtrl.errors['required']) {
-        errors.push('Le nom d’utilisateur est obligatoire.');
-      }
-      if (usernameCtrl.errors['maxlength']) {
-        errors.push('Le nom d’utilisateur est trop long.');
-      }
+    if (usernameCtrl?.errors?.['maxlength']) {
+      errors.push('Le nom d’utilisateur est trop long.');
     }
 
     const emailCtrl = this.profilForm.get('email');
-    if (emailCtrl?.errors) {
-      if (emailCtrl.errors['required']) {
-        errors.push('L’email est obligatoire.');
-      }
-      if (emailCtrl.errors['email']) {
-        errors.push('Le format de l’email est invalide.');
-      }
+    if (emailCtrl?.errors?.['email']) {
+      errors.push('Le format de l’email est invalide.');
     }
 
     return errors.join(' ');
   }
-
 }
