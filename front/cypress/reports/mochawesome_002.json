@@ -1,0 +1,143 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-02-11T16:08:26.374Z",
+    "end": "2026-02-11T16:08:35.674Z",
+    "duration": 9300,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "e1efd247-a51c-4145-819e-e7de46f3068b",
+      "title": "",
+      "fullFile": "cypress/e2e/app/pages/comment/comments.cy.ts",
+      "file": "cypress/e2e/app/pages/comment/comments.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ae461587-d716-476e-9a8a-251fce09ab1c",
+          "title": "Register page",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Comments - Should see article comments and go back",
+              "fullTitle": "Register page Comments - Should see article comments and go back",
+              "timedOut": null,
+              "duration": 2732,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('h3').contains(post.title).click();\ncy.url().should('include', '/posts/' + post.id);\ncy.get('h1').contains(post.title);\ncy.get('span.author').contains(\"UserTwo\");\ncy.get('div').contains(_common_fixtures_post_posts_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_0__.postsFixtures[1].content);\ncy.get('div.content').contains(comment.content);",
+              "err": {},
+              "uuid": "bcdec414-873e-4449-a32c-4c1a5bb9cfb8",
+              "parentUUID": "ae461587-d716-476e-9a8a-251fce09ab1c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Comments - Should not create comment when content is empty",
+              "fullTitle": "Register page Comments - Should not create comment when content is empty",
+              "timedOut": null,
+              "duration": 3011,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/posts/' + post.id);\ncy.get('h1').contains(post.title);\ncy.get('button[type=submit]').should('be.disabled');",
+              "err": {},
+              "uuid": "18503574-024c-4731-9ea3-76a4b69f6dd3",
+              "parentUUID": "ae461587-d716-476e-9a8a-251fce09ab1c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Comments - Should create comment and see it in article page",
+              "fullTitle": "Register page Comments - Should create comment and see it in article page",
+              "timedOut": null,
+              "duration": 3397,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/posts/' + post.id);\ncy.get('h1').contains(post.title);\ncy.get('textarea[name=comment]').type(_common_fixtures_post_newPost_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newPostFixtures.content);\ncy.get('button[type=submit]').click();\ncy.get('div.toast').should('be.visible');\ncy.get('div').contains(_common_fixtures_post_newPost_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newPostFixtures.content);",
+              "err": {},
+              "uuid": "92d52d99-6563-498f-a12f-0d640a657628",
+              "parentUUID": "ae461587-d716-476e-9a8a-251fce09ab1c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "bcdec414-873e-4449-a32c-4c1a5bb9cfb8",
+            "18503574-024c-4731-9ea3-76a4b69f6dd3",
+            "92d52d99-6563-498f-a12f-0d640a657628"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 9140,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

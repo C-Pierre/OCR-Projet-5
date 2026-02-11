@@ -1,0 +1,181 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-02-11T16:08:37.375Z",
+    "end": "2026-02-11T16:08:53.871Z",
+    "duration": 16496,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "ac0f76cf-cba0-4fd5-97a4-e95b6aca2a17",
+      "title": "",
+      "fullFile": "cypress/e2e/app/pages/profil/profil.cy.ts",
+      "file": "cypress/e2e/app/pages/profil/profil.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3480a099-14dd-4f15-9c6e-39a1720ade02",
+          "title": "Profil page",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Profil - Should swho profil page and see username and email",
+              "fullTitle": "Profil page Profil - Should swho profil page and see username and email",
+              "timedOut": null,
+              "duration": 2581,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get(\"H2\").contains(\"Profil utilisateur\");\ncy.get('input[formControlName=username]').should('have.value', user.username);\ncy.get('input[formControlName=email]').should('have.value', user.email);",
+              "err": {},
+              "uuid": "7645f7c1-7f0b-4c60-b783-e4ff00705bc1",
+              "parentUUID": "3480a099-14dd-4f15-9c6e-39a1720ade02",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Profil - Should update username then re-update username with original",
+              "fullTitle": "Profil page Profil - Should update username then re-update username with original",
+              "timedOut": null,
+              "duration": 3372,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('input[formControlName=username]').clear().type(user.username + '-test');\ncy.get('button[type=submit]').click();\ncy.get('div.toast').should('be.visible').and('contain.text', 'Profil mis à jour.');\ncy.get('input[formControlName=username]').should('have.value', user.username + '-test');\ncy.get('input[formControlName=username]').clear().type(user.username);\ncy.get('button[type=submit]').click();\ncy.get('div.toast').should('be.visible').and('contain.text', 'Profil mis à jour.');\ncy.get('input[formControlName=username]').should('have.value', user.username);",
+              "err": {},
+              "uuid": "93c638fc-19bf-400d-b4be-9bc1bb2079ed",
+              "parentUUID": "3480a099-14dd-4f15-9c6e-39a1720ade02",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Profil - Should update email then re-update email with original",
+              "fullTitle": "Profil page Profil - Should update email then re-update email with original",
+              "timedOut": null,
+              "duration": 3437,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('input[formControlName=email]').clear().type('testProfil@mail.com');\ncy.get('button[type=submit]').click();\ncy.get('div.toast').should('be.visible').and('contain.text', 'Profil mis à jour.');\ncy.get('input[formControlName=email]').should('have.value', 'testProfil@mail.com');\ncy.get('input[formControlName=email]').clear().type(user.email);\ncy.get('button[type=submit]').click();\ncy.get('div.toast').should('be.visible').and('contain.text', 'Profil mis à jour.');\ncy.get('input[formControlName=email]').should('have.value', user.email);",
+              "err": {},
+              "uuid": "c5e256fb-bbbd-41c2-9cee-f31c2fa34f69",
+              "parentUUID": "3480a099-14dd-4f15-9c6e-39a1720ade02",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Profil - Should show erros when bad update email or usernamel",
+              "fullTitle": "Profil page Profil - Should show erros when bad update email or usernamel",
+              "timedOut": null,
+              "duration": 3704,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('input[formControlName=email]').clear().type('testProfil');\ncy.get('button[type=submit]').click();\ncy.get('.error').should('be.visible').and('contain.text', \"Le format de l’email est invalide.\");\ncy.get('input[formControlName=email]').clear();\ncy.get('button[type=submit]').click();\ncy.get('.error').should('be.visible').and('contain.text', \"Aucune modification à enregistrer.\");\ncy.get('input[formControlName=email]').clear().type(user.email);\ncy.get('input[formControlName=username]').clear();\ncy.get('button[type=submit]').click();\ncy.get('.error').should('be.visible').and('contain.text', \"Aucune modification à enregistrer.\");",
+              "err": {},
+              "uuid": "fe1b4d9c-d0d0-40f8-bdc2-4f5a3a5bb4d5",
+              "parentUUID": "3480a099-14dd-4f15-9c6e-39a1720ade02",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Profil - Should show erros when bad update pasword",
+              "fullTitle": "Profil page Profil - Should show erros when bad update pasword",
+              "timedOut": null,
+              "duration": 3113,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('input[formControlName=password]').clear().type('test');\ncy.get('button[type=submit]').click();\ncy.get('.error').should('be.visible');\ncy.get('input[formControlName=password]').clear().type('ttttttttttt');\ncy.get('button[type=submit]').click();\ncy.get('.error').should('be.visible');",
+              "err": {},
+              "uuid": "a26b319d-aab9-4227-a468-668cd8044cf2",
+              "parentUUID": "3480a099-14dd-4f15-9c6e-39a1720ade02",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7645f7c1-7f0b-4c60-b783-e4ff00705bc1",
+            "93c638fc-19bf-400d-b4be-9bc1bb2079ed",
+            "c5e256fb-bbbd-41c2-9cee-f31c2fa34f69",
+            "fe1b4d9c-d0d0-40f8-bdc2-4f5a3a5bb4d5",
+            "a26b319d-aab9-4227-a468-668cd8044cf2"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 16207,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}
