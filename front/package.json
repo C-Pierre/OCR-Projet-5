@@ -10,7 +10,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
+    "cypress:clean": "rm -rf cypress/reports/*",
+    "cypress:run": "npm run cypress:clean && cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=true,json=true",
+    "cypress:report": "npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json && npx marge cypress/reports/report.json",
     "e2e": "cypress run",
     "e2e:open": "cypress open"
   },
@@ -43,7 +45,9 @@
     "istanbul-lib-coverage": "^3.2.2",
     "jest": "^29.7.0",
     "jest-preset-angular": "^14.4.1",
-    "nyc": "^17.1.0",
+    "marge": "^1.0.1",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^4.4.1",
     "typescript": "~5.9.1"
   }
 }

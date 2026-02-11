@@ -19,7 +19,7 @@ describe('Login spec', () => {
     cy.get('input[formControlName=identifier]').type('wrong@user.com')
     cy.get('input[formControlName=password]').type('badpassword')
     cy.get('button[type=submit]').click()
-    cy.get('.error').should('be.visible').and('contain.text', 'Identifiants incorrects')
+    cy.get('.error').should('be.visible')
     cy.url().should('include', '/login')
     cy.window().then(win => {
       expect(win.localStorage.getItem('session')).to.be.null

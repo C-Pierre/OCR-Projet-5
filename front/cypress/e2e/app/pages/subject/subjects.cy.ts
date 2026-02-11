@@ -2,7 +2,7 @@ import { subjectsFixtures } from '../../../../common/fixtures/subject/subjects.f
 
 describe('Subjects/themes List page', () => {
     
-    const subject = subjectsFixtures[2];
+    const subject = subjectsFixtures[0];
     
     beforeEach(() => {
         cy.loginAndStoreSession()
@@ -14,7 +14,7 @@ describe('Subjects/themes List page', () => {
     })
     
     it('Should open modal when subscribe to subject and close modal when cancel', () => {
-        cy.get('h3').contains(subject.name).parent().find('button').contains("S'abonner").click();
+        cy.get('h3').contains(subject.name).parent().find('.btn.primary').contains("S'abonner").click();
         cy.get('div.modal').should('be.visible')
         cy.contains('button', "Annuler").click()
         cy.contains('button', "S'abonner").click()
