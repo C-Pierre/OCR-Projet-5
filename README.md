@@ -2,7 +2,7 @@
 
 
 ## Initialisation et lancement des applications
-Il faut récupérer au préalable le dépôt Git de la partie front-end pour utiliser la web-app :
+Il faut récupérer au préalable le dépôt Git pour utiliser le MVP :
 -       https://github.com/C-Pierre/OCR-Project-5
 
 
@@ -49,8 +49,11 @@ Compléter le fichier ./src/main/resources/application.properties avec les élé
         spring.datasource.driver-class-name=org.postgresql.Driver
         spring.main.allow-bean-definition-overriding=true
 
+Il faut ensuite se placer à la racine du projet dans le dossier `./back` et lancer la commande suivante :
+-       mvn spring-boot:run
 
 ### Web-app / Front-end
+Se placer à la racine du projet dans le dossier `./front`.
 Installer l'application avec la commande :
 -       npm install
 Lancer ensuite l'application avec la commande :
@@ -64,8 +67,8 @@ Une fois le front et le back initialisés et installés, l'application est dispo
 
 
 ## Documentation
-Une documentation a été mise en place avec OpenApi.
-Celle-ci est accessible sur les endpoints suivants :
+Une documentation pour la partie back-enda été mise en place avec OpenApi.
+Celle-ci est accessible sur les endpoints suivants une fois l'API lancée :
 - http://localhost:3001/swagger-ui/index.html
 - http://localhost:3001/v3/api-docs
 
@@ -77,9 +80,10 @@ Celle-ci est accessible sur les endpoints suivants :
 La quasi-totalité des routes nécessite d'être authentifié.
 
 Depuis Postman ou équivalent, après le login et la récupération du token, il faut que celui-ci soit joint au Header, au niveau de l'Authorization, et ce pour chaque requête :
--       Authorization : bearer monSuperTokenBienLongJusteIci
+- Auth : Bearer Token
+- Token : monSuperTokenBienLongJusteIci
+- Prefix: Bearer
 Le token est valide durant 24 heures.
-
 
 
 ### Body
@@ -275,14 +279,22 @@ Présentation des dépendances / librairies utilisées dans l’API.
 100% de coverage
 Le rapport de tests est disponible ici:
 - ./back/target/site/jacoco/index.html
+Les tests sont exécutables à la racine du projet depuis le dossier `./back` avec la commande suivante :
+-       mvn clean test
 
 ### Front-end
 100% de coverage
 Le rapport de tests est disponible ici:
 - ./front/coverage/lcov-report/index.html
 Pour faciliter la lecture du rapport tout le dossier /coverage a été versionné.
+Les tests sont exécutables à la racine du projet depuis le dossier `./front` avec les commandes suivantes :
+-       npm run test
+-       npm run test:coverage
 
 ### EndToEnd
 Les différentes interfaces et actions utilisateurs on été testés.
 Le rapport de tests est disponible ici :
 - ./front/cypress/TODO
+Les tests sont exécutables à la racine du projet depuis le dossier `./front` avec les commandes suivantes :
+-       npm run e2e
+-       npm run cypress:report
