@@ -1,0 +1,36 @@
+<app-header></app-header>
+
+<main class="container">
+  <section class="feed-container">
+    <div class="header">
+      <app-button
+        title="Créer un article"
+        type="submit"
+        class="primary"
+        [routerLink]="['/posts/create']"
+      />
+
+      <div class="form">
+        <mat-label>Trier par</mat-label>
+        <mat-select [(ngModel)]="sortKey" (selectionChange)="sortPosts()">
+          <mat-option value="title">Titre de l’article</mat-option>
+          <mat-option value="date">Date</mat-option>
+          <mat-option value="author">Auteur</mat-option>
+        </mat-select>
+      </div>
+    </div>
+
+    <div class="feed-list">
+      @for (post of posts; track post.id) {
+        <div class="post-card" [routerLink]="['/posts', post.id]">
+          <h3>{{ post.title }}</h3>
+          <div>
+            <p class="meta">{{ post.createdAt | date:'longDate' }}</p>
+            <p class="meta">{{ post.authorUsername }}</p>
+          </div>
+          <p class="truncate">{{ post.content }}</p>
+        </div>
+      }
+    </div>
+  </section>
+</main>

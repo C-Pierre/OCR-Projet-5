@@ -1,0 +1,162 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-02-11T16:08:55.528Z",
+    "end": "2026-02-11T16:09:01.490Z",
+    "duration": 5962,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "afd02989-a06c-40c7-a034-45b87911836c",
+      "title": "",
+      "fullFile": "cypress/e2e/app/pages/register/register.cy.ts",
+      "file": "cypress/e2e/app/pages/register/register.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "68079dcf-1a74-4b7e-88f1-7126d4142759",
+          "title": "Register page",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should display register form correctly",
+              "fullTitle": "Register page Should display register form correctly",
+              "timedOut": null,
+              "duration": 904,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('h2').should('have.text', 'Inscription');\ncy.get('input[formControlName=userName]').should('exist');\ncy.get('input[formControlName=email]').should('exist');\ncy.get('input[formControlName=password]').should('exist');",
+              "err": {},
+              "uuid": "de49a494-90a6-4679-8097-796c2ccc4a41",
+              "parentUUID": "68079dcf-1a74-4b7e-88f1-7126d4142759",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Should register successfully and redirect to themes",
+              "fullTitle": "Register page Should register successfully and redirect to themes",
+              "timedOut": null,
+              "duration": 1737,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/auth/register', { statusCode: 200, body: {} }).as('register');\ncy.get('input[formControlName=userName]').type(_common_fixtures_user_newUser_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newUserFixtures.username);\ncy.get('input[formControlName=email]').type(_common_fixtures_user_newUser_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newUserFixtures.email);\ncy.get('input[formControlName=password]').type(_common_fixtures_user_newUser_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newUserFixtures.password);\ncy.get('button[type=submit]').click();\ncy.wait('@register');",
+              "err": {},
+              "uuid": "5560e0ab-3be1-4f38-b424-189f86d869e6",
+              "parentUUID": "68079dcf-1a74-4b7e-88f1-7126d4142759",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Should display error message when register fails",
+              "fullTitle": "Register page Should display error message when register fails",
+              "timedOut": null,
+              "duration": 1580,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/auth/register', { statusCode: 500 }).as('register');\ncy.get('input[formControlName=userName]').type(user.username);\ncy.get('input[formControlName=email]').type(user.email);\ncy.get('input[formControlName=password]').type(_common_fixtures_user_newUser_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newUserFixtures.password);\ncy.get('button[type=submit]').click();\ncy.get('.error').should('be.visible').and('contain.text', \"Une erreur est survenue\");\ncy.url().should('include', '/signin');",
+              "err": {},
+              "uuid": "c2562a39-0def-4d52-bc8b-9a898c02781a",
+              "parentUUID": "68079dcf-1a74-4b7e-88f1-7126d4142759",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Should display error when password not conain one uppercase letter",
+              "fullTitle": "Register page Should display error when password not conain one uppercase letter",
+              "timedOut": null,
+              "duration": 1577,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', '/api/auth/register', { statusCode: 500 }).as('register');\ncy.get('input[formControlName=userName]').type(_common_fixtures_user_newUser_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newUserFixtures.username);\ncy.get('input[formControlName=email]').type(_common_fixtures_user_newUser_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_1__.newUserFixtures.email);\ncy.get('input[formControlName=password]').type('test!1234');\ncy.get('button[type=submit]').click();\ncy.get('.error').should('be.visible').and('contain.text', \"Une erreur est survenue\");",
+              "err": {},
+              "uuid": "4459207a-9b12-4f14-9f15-384ced665cc0",
+              "parentUUID": "68079dcf-1a74-4b7e-88f1-7126d4142759",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "de49a494-90a6-4679-8097-796c2ccc4a41",
+            "5560e0ab-3be1-4f38-b424-189f86d869e6",
+            "c2562a39-0def-4d52-bc8b-9a898c02781a",
+            "4459207a-9b12-4f14-9f15-384ced665cc0"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5798,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

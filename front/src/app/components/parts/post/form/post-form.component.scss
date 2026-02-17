@@ -1,0 +1,8 @@
+.form-container {
+    margin: 0 auto;
+    .form-group { text-align: left; }
+}
+
+@media screen and (max-width: 640px) {
+    .form-container { padding-top: 0; }
+}

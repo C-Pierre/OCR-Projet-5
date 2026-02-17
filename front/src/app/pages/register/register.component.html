@@ -1,0 +1,50 @@
+<app-header />
+
+<div class="register-container form-container">
+  <app-button-back />
+
+  <h2>Inscription</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="submit()">
+
+    <div class="form-group">
+      <label for="userName">Nom d’utilisateur</label>
+      <input id="userName" type="text" formControlName="userName">
+
+      @if (registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched) {
+        <div class="error">
+          Nom d’utilisateur requis (max 250 caractères)
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Adresse e-mail</label>
+      <input id="email" type="email" formControlName="email">
+
+      @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+        <div class="error">
+          Adresse e-mail valide requise
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input id="password" type="password" formControlName="password">
+
+      @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+        <div class="error">
+          Mot de passe requis (6 à 250 caractères)
+        </div>
+      }
+    </div>
+
+    <app-button title="S’inscrire" type="submit" class="primary"></app-button>
+
+    @if (errorMessage) {
+      <div class="error">{{ errorMessage }}</div>
+    }
+
+  </form>
+</div>

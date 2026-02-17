@@ -1,4 +1,63 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'src/styles/variables';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html { background-color: $color-white; }
+
+body {
+    height: 100%;
+    margin: 0 auto;
+    max-width: $bp-large;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.form-container {
+    position: relative;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 0 2rem 2rem;
+
+    h2 { text-align: center; margin-bottom: 1.5rem; }
+
+    .form-group {
+        margin-bottom: 1rem;
+
+        label { display: block; margin-bottom: 0.3rem; }
+
+        input,
+        textarea,
+        select {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            padding: 0.5rem;
+            border-radius: $radius-sm;
+            border: 1px solid $color-grey-fourth;
+
+            &.ng-invalid {
+                border: 1px solid $color-error;
+            }
+        }
+    }
+
+    .error {
+        text-align: center;
+        margin: 1rem auto;
+        color: $color-error;
+        font-weight: 500;
+    }
+
+    app-button {
+        width: fit-content;
+        margin: auto;
+        display: block;
+    }
+} 
+
+@media screen and (max-width: $bp-extra-small) {
+    .form-container { margin: 2rem; }
+}

@@ -1,0 +1,24 @@
+@import 'src/styles/variables';
+
+.subscriptions-section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .subscriptions-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+@media screen and (max-width: $bp-tablet) {
+    .subscriptions-section {
+        padding: 0;
+        .subscriptions-list {
+            display: block;
+        }
+    }
+}

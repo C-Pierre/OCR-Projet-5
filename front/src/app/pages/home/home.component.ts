@@ -1,16 +1,54 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
+import { ButtonComponent } from 'src/app/components/elements/shared/button/button.component';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
+  standalone: true,
+  imports: [CommonModule, ButtonComponent],
   styleUrls: ['./home.component.scss'],
+  template: `
+    <div class="center">
+      <img src="/assets/images/logo_p6.png" alt="logo" />
+
+      <div class="buttons">
+        @if (isLogged) {
+          <app-button
+            title="Accéder"
+            type="a"
+            [routerLink]="'/themes'"
+            btnClass="primary">
+          </app-button>
+        } @else {
+          <app-button
+            title="Se connecter"
+            type="a"
+            [routerLink]="'/login'"
+            btnClass="secondary">
+          </app-button>
+
+          <app-button
+            title="S'inscrire"
+            type="a"
+            [routerLink]="'/signin'"
+            btnClass="secondary">
+          </app-button>
+        }
+      </div>
+    </div>
+  `,
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  isLogged = false;
 
-  ngOnInit(): void {}
+  constructor(private sessionService: SessionService) {}
 
-  start() {
-    alert('Commencez par lire le README et à vous de jouer !');
+  ngOnInit(): void {
+    this.sessionService.isLogged$.subscribe(status => {
+      this.isLogged = status;
+    });
+
+    this.isLogged = this.sessionService.hasSession();
   }
 }

@@ -1,0 +1,101 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { User } from 'src/app/core/models/user/user.interface';
+import { filter, switchMap, catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, firstValueFrom } from 'rxjs';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
+import { UserService } from 'src/app/core/api/services/user/user.service';
+import { SessionService } from 'src/app/core/api/services/auth/session.service';
+import { HeaderComponent } from 'src/app/components/parts/shared/header/header.component';
+import { ProfilFormComponent } from 'src/app/components/parts/profil/form/profil-form.component';
+import { SubscriptionService } from 'src/app/core/api/services/subscription/subscription.service';
+import { ConfirmModalComponent } from 'src/app/components/parts/shared/modal/confirm-modal.component';
+import { UserSubscriptionService } from 'src/app/core/services/subscription/user-subscription.service';
+import { SubscriptionsComponent } from 'src/app/components/sections/profil/subscription/subscriptions.component';
+
+@Component({
+  selector: 'app-profil',
+  standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    ProfilFormComponent,
+    SubscriptionsComponent,
+    ConfirmModalComponent
+  ],
+  templateUrl: './profil.component.html',
+  styleUrls: ['./profil.component.scss']
+})
+export class ProfilComponent implements OnInit {
+  private toastService = inject(ToastService);
+  private sessionService = inject(SessionService);
+  private userService = inject(UserService);
+  private subscriptionService = inject(SubscriptionService);
+  private userSubscriptionService = inject(UserSubscriptionService);
+
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$: Observable<User | null> = this.userSubject.asObservable();
+
+  subscriptions$ = this.userSubscriptionService.subscriptions$;
+  showUnsubscribeModal$ = this.userSubscriptionService.showUnsubscribeModal$;
+
+  public errorMessage?: string;
+
+  ngOnInit(): void {
+    this.sessionService.isLogged$
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          const session = this.sessionService.sessionInformation!;
+          return this.userService.getById(session.id.toString());
+        }),
+        tap(user => this.userSubject.next(user)),
+        switchMap(user => {
+          if (!user) {
+            return of([]);
+          }
+          return this.subscriptionService.getAllForUser(user.id.toString());
+        }),
+        catchError(() => {
+          this.toastService.error("Erreur lors du chargement du profil ou des subscriptions.")
+          return of([]);
+        })
+      )
+      .subscribe(subscriptions => {
+        this.userSubscriptionService.setSubscriptions(subscriptions);
+      });
+  }
+
+  async onSaveProfile(updatedUser: Partial<User>): Promise<void> {
+    const userId = this.sessionService.sessionInformation?.id;
+    if (!userId) return;
+
+    try {
+      const user = await firstValueFrom(
+        this.userService.update(userId.toString(), updatedUser as User)
+      );
+
+      this.userSubject.next(user);
+      this.toastService.success("Profil mis à jour.")
+    } catch (error: unknown) {
+      this.errorMessage =
+        (error instanceof Error && error.message) ||
+        (error as any)?.error?.message?.trim() ||
+        'Une erreur est survenue';
+
+      this.toastService.error("Erreur lors de la mise à jour du profil.")
+    }
+  }
+
+  openUnsubscribeModal(subjectId: number): void {
+    this.userSubscriptionService.openUnsubscribeModal(subjectId);
+  }
+
+  cancelUnsubscribe(): void {
+    this.userSubscriptionService.cancelUnsubscribe();
+  }
+
+  confirmUnsubscribe(): void {
+    this.userSubscriptionService.confirmUnsubscribe();
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-02-11T16:09:03.291Z",
+    "end": "2026-02-11T16:09:19.327Z",
+    "duration": 16036,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "339de7ea-3183-4037-82fa-6e9f4beeef92",
+      "title": "",
+      "fullFile": "cypress/e2e/app/pages/subject/subjects.cy.ts",
+      "file": "cypress/e2e/app/pages/subject/subjects.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fc9d6d33-2ee3-42ea-960e-1ce8a9272e39",
+          "title": "Subjects/themes List page",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should display subject information",
+              "fullTitle": "Subjects/themes List page Should display subject information",
+              "timedOut": null,
+              "duration": 4539,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('h3').contains(_common_fixtures_subject_subjects_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_0__.subjectsFixtures[0].name).parent().find('p').contains(_common_fixtures_subject_subjects_fixtures_cy_ts__WEBPACK_IMPORTED_MODULE_0__.subjectsFixtures[0].description);",
+              "err": {},
+              "uuid": "ba49d6a0-5fdb-4088-8dd5-f79bcd3b4f70",
+              "parentUUID": "fc9d6d33-2ee3-42ea-960e-1ce8a9272e39",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Should open modal when subscribe to subject and close modal when cancel",
+              "fullTitle": "Subjects/themes List page Should open modal when subscribe to subject and close modal when cancel",
+              "timedOut": null,
+              "duration": 2458,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('h3').contains(subject.name).parent().find('.btn.primary').contains(\"S'abonner\").click();\ncy.get('div.modal').should('be.visible');\ncy.contains('button', \"Annuler\").click();\ncy.contains('button', \"S'abonner\").click();\ncy.get('div.modal').should('be.visible');",
+              "err": {},
+              "uuid": "dac0aaca-d554-4362-8386-4b354252de1e",
+              "parentUUID": "fc9d6d33-2ee3-42ea-960e-1ce8a9272e39",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Should subscribe and see subscription in profil page",
+              "fullTitle": "Subjects/themes List page Should subscribe and see subscription in profil page",
+              "timedOut": null,
+              "duration": 3028,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('h3').contains(subject.name).parent().find('button').contains(\"S'abonner\").click();\ncy.get('div.modal').should('be.visible');\ncy.contains('button', \"Confirmer\").click();\ncy.get('div.toast').should('be.visible');\ncy.visit('/profil');\ncy.get('H2').and('contain.text', \"Abonnements\");\ncy.get('h3').contains(subject.name);",
+              "err": {},
+              "uuid": "90d6cc55-c6b4-4d66-ac0b-df9d764cd0df",
+              "parentUUID": "fc9d6d33-2ee3-42ea-960e-1ce8a9272e39",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Should unsubscribe new subscription and go pack to subjects page",
+              "fullTitle": "Subjects/themes List page Should unsubscribe new subscription and go pack to subjects page",
+              "timedOut": null,
+              "duration": 5819,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('button', \"Se désabonner\").should('be.disabled');\ncy.visit('/profil');\ncy.get('H2').and('contain.text', \"Abonnements\");\ncy.get('h3').contains(subject.name).parent().find('button').click();\ncy.get('div.modal').should('be.visible');\ncy.contains('button', \"Confirmer\").click();\ncy.get('div.toast').should('be.visible');\ncy.visit('/themes');",
+              "err": {},
+              "uuid": "db3f7fe2-ee0e-4172-a040-a1ae16d8437b",
+              "parentUUID": "fc9d6d33-2ee3-42ea-960e-1ce8a9272e39",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ba49d6a0-5fdb-4088-8dd5-f79bcd3b4f70",
+            "dac0aaca-d554-4362-8386-4b354252de1e",
+            "90d6cc55-c6b4-4d66-ac0b-df9d764cd0df",
+            "db3f7fe2-ee0e-4172-a040-a1ae16d8437b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 15844,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

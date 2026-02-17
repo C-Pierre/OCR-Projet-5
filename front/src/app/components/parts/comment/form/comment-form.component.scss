@@ -1,0 +1,56 @@
+@import 'src/styles/variables';
+
+.comment-form {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  .form-field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    textarea {
+      width: 100%;
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: $radius-md;
+      border: 1px solid $color-grey-fourth;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 1px $color-primary;
+      }
+    }
+  }
+
+  .submit-btn {
+    padding: 8px 20px;
+    font-weight: 500;
+    border: none;
+    color: $color-primary;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: rotate(-65deg);
+
+    .material-icons {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+}
+
+

@@ -1,0 +1,31 @@
+<app-header></app-header>
+
+<main class="account-container">
+  @if (user$ | async; as user) {
+    <section class="form-container profile-section">
+      <h2>Profil utilisateur</h2>
+
+      <app-profil-form
+        [user]="user"
+        [errorMessage]="errorMessage"
+        (save)="onSaveProfile($event)">
+      </app-profil-form>
+    </section>
+
+    <hr />
+
+    <app-subscriptions
+      [subscriptions]="(subscriptions$ | async) ?? []"
+      (unsubscribe)="openUnsubscribeModal($event)">
+    </app-subscriptions>
+
+    @if (showUnsubscribeModal$ | async) {
+      <app-confirm-modal
+        title="Confirmation"
+        message="Êtes-vous sûr de vouloir vous désabonner ?"
+        (confirm)="confirmUnsubscribe()"
+        (cancel)="cancelUnsubscribe()">
+      </app-confirm-modal>
+    }
+  }
+</main>

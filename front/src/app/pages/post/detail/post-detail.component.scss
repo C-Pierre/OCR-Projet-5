@@ -1,0 +1,14 @@
+@import 'src/styles/variables';
+
+.post-container {
+    position: relative;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+@media screen and (max-width: $bp-mobile) {
+    .post-container {
+        margin: 2rem;
+    }
+}

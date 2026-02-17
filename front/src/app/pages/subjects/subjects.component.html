@@ -1,0 +1,26 @@
+<app-header></app-header>
+
+<main class="container">
+  <section class="themes">
+    @for (theme of themes$ | async; track theme.id) {
+      <app-subscription
+        [name]="theme.name"
+        [disabled]="theme.subscribed"
+        [description]="theme.description"
+        [subscribed]="theme.subscribed"
+        (subscribe)="subscribe(theme.id)"
+      >
+      </app-subscription>
+    }
+  </section>
+
+  @if (userSubscriptionService.showSubscribeModal$ | async) {
+    <app-confirm-modal
+      title="Confirmation"
+      message="Êtes-vous sûr de vouloir vous abonner à ce sujet ?"
+      (confirm)="userSubscriptionService.confirmSubscribe()"
+      (cancel)="userSubscriptionService.cancelSubscribe()"
+    >
+    </app-confirm-modal>
+  }
+</main>
